@@ -1,0 +1,161 @@
+/* Variables de color */
+:host {
+    --color-dark: #1a112d; /* Fondo muy oscuro, casi negro-púrpura */
+    --color-primary: #f700ff9b; /* Púrpura brillante para el acento */
+    --color-text-light: #e0e0e0;
+    --color-text-placeholder: #a0a0a0;
+}
+
+/* 1. Contenedor Principal (Fondo y Centrado) */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--color-dark);
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 2. Caja de Login (El formulario centrado) */
+.login-box {
+    background-color: #2a193c; /* Un púrpura más claro que el fondo */
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    
+    /* Borde neón púrpura */
+    border: 2px solid var(--color-primary);
+    /* Opcional: efecto neón si lo quieres más marcado */
+    /* box-shadow: 0 0 15px var(--color-primary); */
+}
+
+/* Títulos y Logo */
+.logo {
+    font-size: 2.5rem;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+}
+
+.title {
+    font-size: 1.5rem;
+    color: var(--color-text-light);
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+/* 3. Estilo de los Campos de Entrada */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 45px 15px 15px; /* Espacio extra a la derecha para el ícono */
+    border: none;
+    border-radius: 8px;
+    background-color: #402a58; /* Fondo del input */
+    color: var(--color-text-light);
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+.input-group input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 5px var(--color-primary);
+}
+
+/* Estilo del texto placeholder */
+.input-group input::placeholder {
+    color: var(--color-text-placeholder);
+}
+
+/* Estilo para el ícono del ojo */
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--color-primary); /* Color púrpura del ícono */
+    font-size: 1.2rem;
+}
+
+/* 4. Botón Acceder */
+.btn-acceder {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-acceder:hover {
+    background-color: #ea4def; /* Púrpura ligeramente más claro al pasar el mouse */
+    box-shadow: 0 0 10px var(--color-primary);
+}
+
+/* 5. Enlace Crear Cuenta */
+.create-account {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin-top: 30px;
+}
+
+.create-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.create-link:hover {
+    color: #a042ff;
+    text-decoration: underline;
+}
+
+.logo {
+    font-size: 2.5rem;
+    color: var(--color-text-light); /* Color blanco para "Stranger" por defecto */
+    margin-bottom: 5px;
+    font-family: 'Instrument Serif', serif;
+    /* Fuente estilo 'Stranger Things' si usas una fuente custom */
+}
+
+/* MODIFICACIÓN AQUÍ */
+.logo-accent {
+    color: var(--color-primary); /* Color púrpura para "drug" */
+}
+/* FIN MODIFICACIÓN */
+
+.title {
+    font-size: 1.5rem;
+    color: var(--color-text-light);
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+.error-message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #4a1919; /* Fondo rojo oscuro */
+    color: #ff5757; /* Texto rojo brillante */
+    border: 1px solid #ff5757;
+    font-size: 0.9rem;
+    text-align: left;
+}

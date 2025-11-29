@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap');
+
+/* 1. Eliminar margen y relleno por defecto en todos los elementos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Muy recomendado para el layout */
+}
+
+/* 2. Asegurar que el HTML y el BODY ocupen el 100% del viewport */
+html, body {
+    width: 100%;
+    height: 100%;
+    /* Asegúrate de que el fondo de tu app (o el fondo oscuro) se vea */
+    background-color: #1e112a; /* Usa el mismo color dark que en tu login-container */
+}

@@ -1,0 +1,105 @@
+<div class="video-detail-layout">
+
+  <header class="detail-header">
+    <div class="nav-wrapper">
+      <h1 class="logo">Stranger<span class="logo-accent">Drug</span></h1>
+      <button class="btn-volver" [routerLink]="['/home']">Volver</button>
+    </div>
+  </header>
+
+  <main class="content-wrapper">
+    <div class="video-player-section">
+      <h2 class="video-title">{{ tituloVideo }}</h2>
+      
+      <div class="player-container">
+        <video 
+          [src]="videoSourceUrl" 
+          controls 
+          class="video-player"
+          (ended)="manejarFinPreview()"
+          [autoplay]="true"
+        >
+          Tu navegador no soporta el tag de video.
+        </video>
+        
+        <div class="lock-overlay" *ngIf="isPreview && !isPurchased">
+          <span class="lock-icon">🔒</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="info-and-purchase-grid">
+
+      <div class="info-panel">
+        <h3 class="panel-title">Información del video</h3>
+        <p class="panel-description">{{ descripcionVideo }}</p>
+        
+        <div class="info-details">
+          <p><strong>Duración:</strong> {{ duracionVideo }}</p>
+          <p>
+            <strong>Modelos:</strong> 
+            <span *ngFor="let modelo of modelosRelacionados; let last = last">
+                <a [routerLink]="['/modelo', modelo.id]" class="model-link">{{ modelo.nombre }}</a>{{ !last ? ', ' : '' }}
+            </span>
+        </p>
+
+        <p *ngIf="categoriaVideo"><strong>Categoría:</strong> {{ categoriaVideo }}</p>
+
+        <p><strong>Publicado:</strong> {{ fechaPublicacion }}</p>
+        </div>
+      </div>
+
+      <div class="purchase-panel" *ngIf="!isPurchased">
+        <h3 class="panel-title">Precio</h3>
+        
+        <label for="country-select">Selecciona tu país</label>
+        <select 
+          id="country-select" 
+          class="country-select" 
+          [(ngModel)]="paisSeleccionado" 
+          (change)="onPaisChange()"
+        >
+          <option *ngFor="let pais of paises" [value]="pais">{{ pais }}</option>
+        </select>
+
+        <div class="price-display">
+          <p class="price-currency">{{ precioActual.moneda }}</p>
+          <p class="price-amount">{{ precioActual.precio | number: '1.2-2' }}</p>
+        </div>
+        
+        <p class="access-note">Compra única - Acceso ilimitado</p>
+        
+        <button class="btn-comprar" (click)="iniciarCompra()">
+          🛒 Comprar
+        </button>
+      </div>
+
+    </div>
+  </main>
+  
+<footer class="footer">
+    <div class="footer-content-wrapper">
+      <div class="footer-section">
+        <p class="footer-link">Privacy Policy</p>
+        <p class="footer-link">Coockies Policy</p>
+      </div>
+
+      <div class="footer-section center-logo">
+        <h3 class="footer-logo">Stranger<span class="logo-accent">Drug</span></h3>
+        <div class="social-icons">
+                    <img src="onlyfans.svg" class="social-svg">
+                    <img src="pornhub.svg" class="social-svg">
+          <fa-icon [icon]="['fab', 'facebook']"></fa-icon>
+                    <fa-icon [icon]="['fab', 'x-twitter']"></fa-icon>
+          <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
+        </div>
+      </div>
+
+      <div class="footer-section right-contact">
+        <p class="contact-title">Desarrollo-X</p>
+        <p class="contact-email">Desarrollox@gmail.com</p>
+      </div>
+    </div>
+  </footer>
+</div>

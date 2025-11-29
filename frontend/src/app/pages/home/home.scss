@@ -1,0 +1,348 @@
+/* ============================================== */
+/* VARIABLES DE COLOR (CONSISTENTES) */
+/* ============================================== */
+:host {
+    --color-dark: #1e112a; /* Fondo muy oscuro (Consistente con login/registro) */
+    --color-background-secondary: #2a193c; /* Fondo de la caja/tarjeta/footer */
+    --color-primary: #f700ff9b; /* Púrpura brillante (Consistente) */
+    --color-text-light: #e0e0e0;
+    --color-text-accent: #f700ff; /* Un púrpura más vivo para algunos acentos */
+    --color-pill-background: #402a58; /* Fondo para las pastillas (pills) */
+}
+
+/* ============================================== */
+/* LAYOUT PRINCIPAL */
+/* ============================================== */
+.main-layout {
+    min-height: 100vh;
+    background-color: var(--color-dark);
+    color: var(--color-text-light);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
+    padding: 20px 0;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ============================================== */
+/* HEADER / NAV */
+/* ============================================== */
+.header-nav {
+    background-color: #1a112d; /* Ligeramente más oscuro que el fondo para distinción */
+    border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+    padding: 15px 0;
+}
+
+.nav-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-text-light);
+    margin-right: 40px;
+}
+
+.logo-accent {
+    color: var(--color-primary);
+}
+
+.main-links {
+    display: flex;
+    gap: 30px;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.main-links a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.main-links a:hover {
+    color: var(--color-primary);
+}
+
+.admin-link {
+    background-color: var(--color-primary);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white !important;
+    text-align: center;
+}
+
+.btn-iniciar-sesion {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-iniciar-sesion:hover {
+    background-color: #a042ff;
+    box-shadow: 0 0 8px var(--color-primary);
+}
+
+/* ============================================== */
+/* CONTENIDO Y SECCIONES */
+/* ============================================== */
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 5px;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-placeholder);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-header-inline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.highlight-pill {
+    background-color: var(--color-pill-background);
+    color: var(--color-primary);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: 1px solid var(--color-primary);
+}
+
+.btn-ver-todos {
+    background: none;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-text-light);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-ver-todos:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 5px var(--color-primary);
+}
+
+/* --- GRID DE VIDEOS --- */
+.grid-video-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.video-card {
+    background-color: var(--color-background-secondary);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border: 1px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.video-card:hover {
+    border-color: var(--color-primary);
+}
+
+.video-placeholder {
+    width: 100%;
+    height: 180px;
+    background-color: #3b2a4c;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.play-icon {
+    color: white;
+    width: 3rem;
+    height: 3rem;
+    opacity: 0.8;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.card-price {
+    color: var(--color-primary);
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.card-duration {
+    font-size: 0.9rem;
+    color: var(--color-text-placeholder);
+}
+
+/* --- GRID DE MODELOS --- */
+.grid-model-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 60px;
+}
+
+.model-card {
+    background-color: var(--color-background-secondary);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border: 1px solid transparent;
+    transition: border-color 0.3s;
+}
+.model-card:hover {
+    border-color: var(--color-primary);
+}
+
+.model-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: #3b2a4c;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    border: 3px solid var(--color-primary);
+}
+
+.model-videos {
+    font-size: 0.8rem;
+    color: var(--color-text-placeholder);
+    margin-bottom: 5px;
+}
+
+.model-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+}
+
+/* ============================================== */
+/* FOOTER / PIE DE PÁGINA */
+/* ============================================== */
+.footer {
+    background-color: var(--color-background-secondary);
+    padding: 30px 0;
+    border-top: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.footer-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 150px;
+}
+
+.footer-link {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: var(--color-primary);
+}
+
+.center-logo {
+    text-align: center;
+    flex-grow: 2;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.social-icons fa-icon {
+    color: var(--color-text-light);
+    font-size: 1.5rem;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.social-icons fa-icon:hover {
+    color: var(--color-primary);
+}
+
+.right-contact {
+    text-align: right;
+    min-width: 200px;
+}
+
+.contact-title {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+}
+
+.contact-email {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+.social-svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 10px;
+  cursor: pointer;
+  filter: brightness(0) invert(1); /* blanco */
+  transition: filter 0.3s;
+}
+
+.social-svg:hover {
+  filter: brightness(0) invert(1) drop-shadow(0 0 6px var(--color-primary));
+}

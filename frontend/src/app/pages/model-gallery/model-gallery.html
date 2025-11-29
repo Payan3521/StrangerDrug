@@ -1,0 +1,111 @@
+<div class="gallery-layout">
+
+  <header class="gallery-header">
+    <div class="header-wrapper">
+      <h1 class="logo">Stranger<span class="logo-accent">Drug</span></h1>
+      
+      <div class="nav-links">
+        <a [routerLink]="['/notification']">Notificaciones</a>
+        <a [routerLink]="['/library']">Biblioteca</a>
+        <a [routerLink]="['/home']">Home</a>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="content-wrapper">
+    <h2 class="section-title">Modelos</h2>
+    
+    <div class="search-bar-container">
+      <input 
+        type="text" 
+        placeholder="Buscar modelos por nombre..." 
+        class="search-input"
+        [value]="searchTerm"
+        (input)="onSearchChange($event)"
+      >
+    </div>
+    
+    <section class="model-grid-section" >
+      <div *ngIf="modelosMostrados.length > 0; else noResults" class="grid-model-cards">
+          
+        <div 
+          class="model-card" 
+          *ngFor="let modelo of modelosMostrados" 
+          (click)="navegarAperfil(modelo.id)"
+        >
+          
+          <div class="model-placeholder">
+            <p>{{ modelo.nombre.charAt(0) }}</p>
+          </div>
+          
+          <div class="card-info">
+            <p class="video-count">{{ modelo.videoCount }} Videos</p>
+            <p class="model-name">{{ modelo.nombre }}</p>
+          </div>
+        </div>
+
+      </div>
+      
+      <ng-template #noResults>
+        <p class="no-results-message">No se encontraron modelos que coincidan con "{{ searchTerm }}".</p>
+      </ng-template>
+      
+      </section>
+
+      <div class="pagination-container" *ngIf="totalPaginas.length > 1">
+          <button 
+              class="page-button prev-next-button" 
+              (click)="cambiarPagina(paginaActual - 1)" 
+              [disabled]="paginaActual === 1"
+          >
+              &laquo; Anterior
+          </button>
+          
+          <button 
+              *ngFor="let page of totalPaginas" 
+              class="page-button" 
+              [class.active]="page === paginaActual" 
+              (click)="cambiarPagina(page)"
+          >
+              {{ page }}
+          </button>
+
+          <button 
+              class="page-button prev-next-button" 
+              (click)="cambiarPagina(paginaActual + 1)" 
+              [disabled]="paginaActual === totalPaginas.length"
+          >
+              Siguiente &raquo;
+          </button>
+      </div>
+
+
+  </main>
+  
+    <footer class="footer">
+    <div class="footer-content-wrapper">
+      <div class="footer-section">
+        <p class="footer-link">Privacy Policy</p>
+        <p class="footer-link">Coockies Policy</p>
+      </div>
+
+      <div class="footer-section center-logo">
+        <h3 class="footer-logo">Stranger<span class="logo-accent">Drug</span></h3>
+        <div class="social-icons">
+                    <img src="onlyfans.svg" class="social-svg">
+                    <img src="pornhub.svg" class="social-svg">
+          <fa-icon [icon]="['fab', 'facebook']"></fa-icon>
+                    <fa-icon [icon]="['fab', 'x-twitter']"></fa-icon>
+          <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
+        </div>
+      </div>
+
+      <div class="footer-section right-contact">
+        <p class="contact-title">Desarrollo-X</p>
+        <p class="contact-email">Desarrollox@gmail.com</p>
+      </div>
+    </div>
+    </footer>
+
+</div>

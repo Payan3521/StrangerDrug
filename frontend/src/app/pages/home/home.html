@@ -1,0 +1,89 @@
+<div class="main-layout">
+
+  <header class="header-nav">
+    <div class="nav-content-wrapper">
+      <h1 class="logo">Stranger<span class="logo-accent">Drug</span></h1>
+      
+      <nav class="main-links">
+        <a *ngIf="isAdmin" class="admin-link">Panel de administración</a>
+        <a [routerLink]="['/notification']">Notificaciones</a>
+        <a [routerLink]="['/library']">Biblioteca</a>
+      </nav>
+
+      <button *ngIf="!isLoggedIn" class="btn-iniciar-sesion" (click)="iniciarSesion()">
+        Iniciar sesión
+      </button>
+
+      <button *ngIf="isLoggedIn" class="btn-cerrar-sesion" (click)="cerrarSesion()">
+        Cerrar sesión
+      </button>
+      </div>
+  </header>
+
+  <main class="content">
+    <div class="content-container">
+
+      <h2 class="section-title">Videos exclusivos</h2>
+      <p class="section-subtitle">Accede a contenido que no encontrarás en otro lugar</p>
+
+      <section class="video-section">
+        <div class="section-header-inline">
+          <span class="highlight-pill">Videos recientes</span>
+          <button class="btn-ver-todos" [routerLink]="['/video-gallery']">Ver todos</button>
+        </div>
+
+        <div class="grid-video-cards">
+          <div class="video-card" *ngFor="let video of videosRecientes" [routerLink]="['/video', video.id]">
+            <div class="video-placeholder">
+              <svg class="play-icon" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z"/></svg>
+            </div>
+            <p class="card-title">{{ video.titulo }}</p>
+            <p class="card-price">${{ video.precio.toFixed(2) }}</p>
+            <p class="card-duration">Duración: {{ video.duracion }}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="models-section">
+        <div class="section-header-inline">
+          <span class="highlight-pill">Modelos destacadas</span>
+          <button class="btn-ver-todos" [routerLink]="['/model-gallery']">Ver todas</button>
+        </div>
+
+        <div class="grid-model-cards">
+          <div class="model-card" *ngFor="let modelo of modelosDestacados" [routerLink]="['/model', modelo.id]">
+            <div class="model-placeholder"></div>
+            <p class="model-videos">{{ modelo.videos }} Videos</p>
+            <p class="model-name">{{ modelo.nombre }}</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="footer">
+    <div class="footer-content-wrapper">
+      <div class="footer-section">
+        <p class="footer-link">Privacy Policy</p>
+        <p class="footer-link">Coockies Policy</p>
+      </div>
+
+      <div class="footer-section center-logo">
+        <h3 class="footer-logo">Stranger<span class="logo-accent">Drug</span></h3>
+        <div class="social-icons">
+                    <img src="onlyfans.svg" class="social-svg">
+                    <img src="pornhub.svg" class="social-svg">
+          <fa-icon [icon]="['fab', 'facebook']"></fa-icon>
+                    <fa-icon [icon]="['fab', 'x-twitter']"></fa-icon>
+          <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
+        </div>
+      </div>
+
+      <div class="footer-section right-contact">
+        <p class="contact-title">Desarrollo-X</p>
+        <p class="contact-email">Desarrollox@gmail.com</p>
+      </div>
+    </div>
+  </footer>
+
+</div>

@@ -1,0 +1,117 @@
+<div class="library-layout">
+
+  <header class="library-header">
+    <div class="header-wrapper">
+      <h1 class="logo">Stranger<span class="logo-accent">Drug</span></h1>
+      
+      <div class="nav-links">
+        <a [routerLink]="['/notification']">Notificaciones</a>
+        <a [routerLink]="['/library']" class="active">Biblioteca</a>
+        <a [routerLink]="['/home']">Home</a>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="content-wrapper">
+    <h2 class="section-title">Mi Biblioteca</h2>
+
+    <div class="search-bar-container">
+      <input 
+        type="text" 
+        placeholder="Buscar videos por título o modelo..." 
+        class="search-input"
+        [(ngModel)]="searchTerm"
+      >
+    </div>
+    
+    <section class="videos-grid-section">
+      <div *ngIf="videosMostrados.length > 0; else emptyLibrary" class="grid-video-cards">
+        
+        <div 
+          class="video-card" 
+          *ngFor="let video of videosMostrados" 
+          (click)="verVideo(video.id)"
+        >
+
+        <button 
+        class="btn-delete-video"
+        (click)="removeVideoFromLibrary(video.id, video.title, $event)"
+      >
+        🗑️
+      </button>
+          <div class="video-placeholder">
+            <svg class="play-icon" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z"/></svg>
+          </div>
+          <div class="card-info">
+            <p class="card-title">{{ video.title }}</p>
+            <p class="card-model">Modelo: {{ video.model }}</p>
+            <p class="card-duration">{{ video.duration }}</p>
+            <span class="card-status">Comprado</span>
+          </div>
+        </div>
+
+      </div>
+      
+      <ng-template #emptyLibrary>
+        <p class="empty-message">Aún no has comprado ningún video. ¡Explora la galería!</p>
+      </ng-template>
+      
+    </section>
+
+    <div class="pagination-container" *ngIf="totalPaginas.length > 1">
+        <button 
+            class="page-button prev-next-button" 
+            (click)="cambiarPagina(paginaActual - 1)" 
+            [disabled]="paginaActual === 1"
+        >
+            &laquo; Anterior
+        </button>
+        
+        <button 
+            *ngFor="let page of totalPaginas" 
+            class="page-button" 
+            [class.active]="page === paginaActual" 
+            (click)="cambiarPagina(page)"
+        >
+            {{ page }}
+        </button>
+
+        <button 
+            class="page-button prev-next-button" 
+            (click)="cambiarPagina(paginaActual + 1)" 
+            [disabled]="paginaActual === totalPaginas.length"
+        >
+            Siguiente &raquo;
+        </button>
+    </div>
+      
+
+  </main>
+  
+    <footer class="footer">
+    <div class="footer-content-wrapper">
+      <div class="footer-section">
+        <p class="footer-link">Privacy Policy</p>
+        <p class="footer-link">Coockies Policy</p>
+      </div>
+
+      <div class="footer-section center-logo">
+        <h3 class="footer-logo">Stranger<span class="logo-accent">Drug</span></h3>
+        <div class="social-icons">
+          <img src="onlyfans.svg" class="social-svg">
+          <img src="pornhub.svg" class="social-svg">
+          <fa-icon [icon]="['fab', 'facebook']"></fa-icon>
+          <fa-icon [icon]="['fab', 'x-twitter']"></fa-icon>
+          <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
+        </div>
+      </div>
+
+      <div class="footer-section right-contact">
+        <p class="contact-title">Desarrollo-X</p>
+        <p class="contact-email">Desarrollox@gmail.com</p>
+      </div>
+    </div>
+    </footer>
+
+</div>

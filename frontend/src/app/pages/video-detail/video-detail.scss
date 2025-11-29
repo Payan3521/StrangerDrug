@@ -1,0 +1,307 @@
+/* Heredamos variables y estilos base del Home */
+:host {
+    --color-dark: #1e112a;
+    --color-background-secondary: #2a193c; 
+    --color-primary: #f700ff9b; 
+    --color-accent: #f700ff; /* Color para el botón de compra */
+    --color-text-light: #e0e0e0;
+}
+
+.video-detail-layout {
+    min-height: 100vh;
+    background-color: var(--color-dark);
+    color: var(--color-text-light);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================== */
+/* HEADER Y NAVEGACIÓN */
+/* ============================================== */
+.detail-header {
+    background-color: #1a112d;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.nav-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-text-light);
+}
+
+.logo-accent {
+    color: var(--color-primary);
+}
+
+.btn-volver {
+    background: var(--color-background-secondary);
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-volver:hover {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* ============================================== */
+/* CONTENIDO PRINCIPAL */
+/* ============================================== */
+.content-wrapper {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    flex-grow: 1;
+}
+
+.video-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.player-container {
+    position: relative;
+    width: 100%;
+    /* Relación de aspecto 16:9 */
+    padding-top: 56.25%; 
+    background-color: #000;
+    margin-bottom: 30px;
+}
+
+.video-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+/* Candado para el Preview */
+.lock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* Permite interactuar con el reproductor subyacente */
+    z-index: 10;
+}
+
+.lock-icon {
+    font-size: 4rem;
+    color: var(--color-primary);
+    text-shadow: 0 0 10px var(--color-primary);
+}
+
+/* Grid de Información y Compra */
+.info-and-purchase-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Más espacio para la info que para el precio */
+    gap: 30px;
+}
+
+/* Estilos de los paneles */
+.info-panel, .purchase-panel {
+    background-color: var(--color-background-secondary);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.panel-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    margin-bottom: 15px;
+}
+
+.panel-description {
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.info-details p {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+/* PANEL DE COMPRA */
+.country-select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px;
+    background-color: #3b2a4c;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    appearance: none; /* Quitar el estilo nativo */
+    cursor: pointer;
+}
+
+.price-display {
+    text-align: center;
+    margin: 20px 0 10px;
+}
+
+.price-currency {
+    font-size: 1.2rem;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+}
+
+.price-amount {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-accent);
+    text-shadow: 0 0 5px var(--color-accent);
+}
+
+.access-note {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    margin-bottom: 25px;
+}
+
+.btn-comprar {
+    width: 100%;
+    background-color: var(--color-accent);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-comprar:hover {
+    background-color: #ff33ff;
+    box-shadow: 0 0 12px var(--color-accent);
+}
+
+/* ============================================== */
+/* FOOTER / PIE DE PÁGINA */
+/* ============================================== */
+.footer {
+    background-color: var(--color-background-secondary);
+    padding: 30px 0;
+    border-top: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.footer-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 150px;
+}
+
+.footer-link {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: var(--color-primary);
+}
+
+.center-logo {
+    text-align: center;
+    flex-grow: 2;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.social-icons fa-icon {
+    color: var(--color-text-light);
+    font-size: 1.5rem;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.social-icons fa-icon:hover {
+    color: var(--color-primary);
+}
+
+.right-contact {
+    text-align: right;
+    min-width: 200px;
+}
+
+.contact-title {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+}
+
+.contact-email {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+
+.social-svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 10px;
+  cursor: pointer;
+  filter: brightness(0) invert(1); /* blanco */
+  transition: filter 0.3s;
+}
+
+.social-svg:hover {
+  filter: brightness(0) invert(1) drop-shadow(0 0 6px var(--color-primary));
+}
+
+.model-link {
+    color: #f221ac;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.model-link:hover {
+    color: #000;
+    text-decoration: underline;
+}

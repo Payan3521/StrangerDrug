@@ -1,0 +1,326 @@
+/* ============================================== */
+/* VARIABLES Y BASE (COMPLETO) */
+/* ============================================== */
+:host {
+    --color-dark: #1e112a;
+    --color-background-secondary: #2a193c; 
+    --color-primary: #f700ff9b;
+    --color-text-light: #e0e0e0;
+    --color-text-placeholder: #ccc;
+    --card-width: 320px; /* Ancho fijo para cada tarjeta en el carrusel */
+}
+
+.gallery-layout {
+    min-height: 100vh;
+    background-color: var(--color-dark);
+    color: var(--color-text-light);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 20px;
+    flex-grow: 1;
+}
+
+/* --- Header y Navegación (COMPLETO) --- */
+.gallery-header {
+    background-color: #1a112d;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.header-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-text-light);
+}
+
+.logo-accent {
+    color: var(--color-primary);
+}
+
+.nav-links a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    margin-right: 20px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--color-primary);
+}
+
+.btn-iniciar-sesion {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-iniciar-sesion:hover {
+    box-shadow: 0 0 10px var(--color-primary);
+}
+
+/* ============================================== */
+/* TÍTULOS Y BÚSQUEDA (COMPLETO) */
+/* ============================================== */
+.section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--color-text-light);
+}
+
+.search-bar-container {
+    max-width: 400px;
+    margin-bottom: 40px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-light);
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    font-size: 1rem;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================== */
+/* CARRUSELES POR CATEGORÍA */
+/* ============================================== */
+
+.category-section {
+    margin-bottom: 50px;
+}
+
+.category-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    margin-bottom: 15px;
+}
+
+.carousel-container {
+    position: relative;
+    /* Necesario para posicionar las flechas */
+}
+
+.carousel-wrapper {
+    display: flex; 
+    overflow-x: scroll; 
+    padding: 10px 0; /* Un poco de padding vertical */
+    gap: 20px; 
+    
+    /* CAMBIO CLAVE: Ocultar la barra de scroll */
+    scrollbar-width: none; /* Firefox */
+}
+
+.carousel-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* --- Tarjeta de Video (COMPLETO) --- */
+.video-card {
+    flex: 0 0 var(--card-width); 
+    max-width: var(--card-width);
+    height: 320px; /* Altura definida para que no colapsen */
+    
+    background-color: var(--color-background-secondary);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border: 1px solid transparent;
+    transition: border-color 0.3s;
+    cursor: pointer;
+}
+
+.video-card:hover {
+    border-color: var(--color-primary);
+}
+
+.video-placeholder {
+    width: 100%;
+    height: 180px;
+    background-color: #3b2a4c;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.play-icon {
+    color: white;
+    width: 3rem;
+    height: 3rem;
+    opacity: 0.8;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.card-price {
+    color: var(--color-primary);
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.card-duration {
+    font-size: 0.9rem;
+    color: var(--color-text-placeholder);
+}
+
+/* --- Flechas de Desplazamiento --- */
+.scroll-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    background-color: var(--color-background-secondary);
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    transition: all 0.2s;
+}
+
+.scroll-arrow:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.scroll-arrow.right {
+    right: -15px; /* Ajuste para que la flecha quede parcialmente fuera del contenedor */
+}
+
+.scroll-arrow.left {
+    left: -15px; /* Ajuste para la flecha izquierda */
+}
+
+.scroll-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ============================================== */
+/* FOOTER / PIE DE PÁGINA (COMPLETO) */
+/* ============================================== */
+.footer {
+    background-color: var(--color-background-secondary);
+    padding: 30px 0;
+    border-top: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.footer-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 150px;
+}
+
+.footer-link {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: var(--color-primary);
+}
+
+.center-logo {
+    text-align: center;
+    flex-grow: 2;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons fa-icon {
+    color: var(--color-text-light);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.social-icons fa-icon:hover {
+    color: var(--color-primary);
+}
+
+.right-contact {
+    text-align: right;
+    min-width: 200px;
+}
+
+.contact-title {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+}
+
+.contact-email {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+
+.social-svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s;
+}
+
+.social-svg:hover {
+    filter: brightness(0) invert(1) drop-shadow(0 0 6px var(--color-primary));
+}

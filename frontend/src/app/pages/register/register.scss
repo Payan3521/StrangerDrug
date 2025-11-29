@@ -1,0 +1,300 @@
+/* Importar o usar los estilos base de login.component.css */
+/* Idealmente, los estilos comunes (.login-container, .login-box, .logo, .btn-acceder)
+   estarían en un archivo compartido o global. Para este ejemplo, solo añadiremos los nuevos: */
+
+/* Variables de color (reutilizadas del login) */
+:host {
+    --color-dark: #1e112a; /* Fondo muy oscuro */
+    --color-primary: #f700ff9b; /* Púrpura brillante unificado */
+    --color-text-light: #e0e0e0;
+    --color-text-placeholder: #a0a0a0;
+}
+
+/* Estilos de Login que son necesarios para el layout */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--color-dark);
+    font-family: 'Instrument Serif', serif; /* Usar la fuente del logo en todo si se desea */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.login-box {
+    background-color: #2a193c;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 450px; /* Un poco más ancho que el login por la doble columna */
+    text-align: center;
+    border: 2px solid var(--color-primary);
+}
+
+.logo {
+    font-size: 2.5rem;
+    color: var(--color-text-light); 
+    margin-bottom: 5px;
+    font-family: 'Instrument Serif', serif; 
+}
+.logo-accent {
+    color: var(--color-primary);
+}
+.title {
+    font-size: 1.5rem;
+    color: var(--color-text-light);
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+
+/* 1. ESTILO DE LA FILA DE DOS COLUMNAS (Nombres/Apellidos) */
+.input-row {
+    display: flex;
+    gap: 15px; /* Espacio entre las columnas */
+    margin-bottom: 10px; /* Reducir margen porque la fila tiene 2 inputs */
+}
+
+.input-row .input-group {
+    flex: 1; /* Hace que ambos inputs ocupen el 50% del ancho */
+    margin-bottom: 0;
+}
+.input-group {
+    position: relative;
+    margin-bottom: 15px; /* Margen para inputs de una sola columna */
+}
+
+
+/* 2. Estilo del Input de Fecha (para que el placeholder se vea bien) */
+.date-input {
+    /* Color de texto siempre claro */
+    color: var(--color-text-light) !important; 
+}
+
+/* 3. Estilo del Checkbox de Términos */
+.input-terms {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Alineación a la izquierda */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.input-terms .link-terminos { 
+    color: var(--color-primary);
+    text-decoration: none;
+    cursor: pointer; /* <--- ESTO FUERZA EL PUNTERO CLIQUEABLE */
+    margin-left: 5px; /* Pequeño espacio entre el checkbox y el texto */
+    transition: color 0.3s;
+}
+
+.input-terms .link-terminos:hover {
+    text-decoration: underline; /* Opcional: añadir un subrayado al pasar el mouse */
+}
+
+.input-terms a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.input-terms input[type="checkbox"] {
+    /* Ocultar el checkbox nativo y estilizar uno custom */
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--color-primary);
+    border-radius: 4px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Estilo para el Checkbox marcado */
+.input-terms input[type="checkbox"]:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.input-terms input[type="checkbox"]:checked::after {
+    content: '✓'; /* Símbolo de check */
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Estilos para mensajes de estado */
+.error-message {
+    /* Reutiliza el estilo de error del login */
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #4a1919;
+    color: #ff5757;
+    border: 1px solid #ff5757;
+    font-size: 0.9rem;
+    text-align: center;
+}
+.success-message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #194a21; /* Fondo verde oscuro */
+    color: #57ff6d; /* Texto verde brillante */
+    border: 1px solid #57ff6d;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Reutilizar estilos de inputs y botones de login.component.css */
+.input-group input {
+    width: 100%;
+    padding: 15px 45px 15px 15px; 
+    border: none;
+    border-radius: 8px;
+    background-color: #402a58;
+    color: var(--color-text-light);
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px solid transparent;
+}
+.btn-acceder {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-acceder:hover {
+    background-color: #a042ff; /* Púrpura ligeramente más claro y consistente */
+    box-shadow: 0 0 10px var(--color-primary);
+}
+
+/* Para asegurar que el botón se deshabilite correctamente */
+.btn-acceder:disabled {
+    background-color: #402a58; /* Color tenue para indicar inactividad */
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo muy oscuro, ligeramente transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegurar que esté encima de todo */
+}
+
+.modal-content {
+    background-color: #2a193c; /* Color de fondo secundario */
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh; /* Para que sea scrollable si el contenido es largo */
+    overflow-y: auto;
+    box-shadow: 0 0 30px rgba(247, 0, 255, 0.4);
+    border: 2px solid var(--color-primary);
+    color: var(--color-text-light);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(247, 0, 255, 0.3);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: var(--color-text-light);
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.close-button:hover {
+    color: #ff5757;
+}
+
+.modal-body {
+    padding-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.modal-intro {
+    font-style: italic;
+    color: var(--color-text-placeholder);
+    margin-bottom: 20px;
+}
+
+.terminos-list {
+    list-style: none;
+    padding: 0;
+}
+
+.terminos-list li {
+    margin-bottom: 15px;
+}
+
+.terminos-list li p:first-child {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.terminos-list li p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.modal-footer {
+    text-align: right;
+    padding-top: 15px;
+    border-top: 1px solid rgba(247, 0, 255, 0.3);
+}
+
+.btn-cerrar {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-cerrar:hover {
+    background-color: #a042ff;
+}
