@@ -1,0 +1,27 @@
+CREATE DATABASE IF NOT EXISTS StrangerDrug;
+
+USE StrangerDrug;
+
+SET NAMES utf8mb4;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+CREATE TABLE login_attempts(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(225) NOT NULL,
+    ip_address VARCHAR(45) NOT NULL,
+    successful BOOLEAN NOT NULL,
+    failure_reason VARCHAR(255),
+    attempt_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_agent VARCHAR(255)
+);
+
+CREATE TABLE refresh_tokens(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(500) NOT NULL,
+    user_email VARCHAR(225) NOT NULL,
+    expiry_date TIMESTAMP NOT NULL,
+    revoked BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    revoked_at TIMESTAMP
+);

@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import com.desarrollox.backend.api_auth.exception.InvalidCredentialsException;
+import com.desarrollox.backend.api_auth.exception.InvalidTokenException;
+import com.desarrollox.backend.api_register.exception.UserNotFoundException;
 import com.desarrollox.backend.core.exception.NoAdminAccessException;
 import com.desarrollox.backend.core.exception.NoClientAccessException;
 import com.desarrollox.backend.core.exception.NoTokenException;
-import com.desarrollox.backend.core.exception.InvalidTokenException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -29,10 +31,20 @@ public class GlobalExceptionHandler {
             NoTokenException.class,
             NoAdminAccessException.class,
             NoClientAccessException.class,
-            InvalidTokenException.class
+            InvalidTokenException.class,
+            InvalidCredentialsException.class
         }
     )
     public ResponseEntity<Map<String, Object>> handleUnauthorized(RuntimeException e) {
         return buildResponse(HttpStatus.UNAUTHORIZED, "Unauthorized", e.getMessage());
+    }
+
+    @ExceptionHandler(
+        {
+            UserNotFoundException.class
+        }
+    )
+    public ResponseEntity<Map<String, Object>> handleNotFound(RuntimeException ex){
+        return buildResponse(HttpStatus.NOT_FOUND, "Recurso no encontrado", ex.getMessage());
     }
 }
