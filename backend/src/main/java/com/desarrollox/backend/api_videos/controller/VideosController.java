@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import com.desarrollox.backend.api_videos.controller.dto.PlayableUrlRequest;
 import com.desarrollox.backend.api_videos.model.Video;
 import com.desarrollox.backend.api_videos.service.IVideoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -49,6 +52,12 @@ public class VideosController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(videos, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-playable-url")
+    public ResponseEntity<Video> getPlayableUrl(@Valid @RequestBody PlayableUrlRequest request){
+        Optional<Video> video = videoService.getPlayableUrl(request.getVideoId(), request.getEmail());
+        return new ResponseEntity<>(video.get(), HttpStatus.OK);
     }
 
     @PutMapping("/update-video/{id}")

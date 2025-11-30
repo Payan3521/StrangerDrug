@@ -44,7 +44,7 @@ public class SecurityConfig {
 
                 //payment
                 .requestMatchers(HttpMethod.GET, "/api/payment/initiate").hasRole("CLIENTE")
-                .requestMatchers(HttpMethod.GET, "/api/payment/postback").hasRole("CLIENTE")
+                .requestMatchers(HttpMethod.GET, "/api/payment/webhook").hasRole("CLIENTE")
 
                 //posts
                 .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
@@ -91,6 +91,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/videos/upload-preview").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/videos").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/videos/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/videos/get-playable-url").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/videos/update-preview/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/videos/update-video/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/videos/{id}").hasRole("ADMIN")

@@ -16,9 +16,9 @@ public class PaymentController {
         return ResponseEntity.ok("Initiate");
     }
 
-    @GetMapping("/postback")
-    public ResponseEntity<?> postback(){
-        return ResponseEntity.ok("Postback");
+    @GetMapping("/webhook")
+    public ResponseEntity<?> webhook(){
+        return ResponseEntity.ok("Webhook");
     }
 
 }

@@ -42,3 +42,34 @@ CREATE TABLE photos (
     s3_url VARCHAR(500) NOT NULL,
     photo_type ENUM('THUMBNAIL', 'PROFILE') NOT NULL
 );
+
+CREATE TABLE payments(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    transaction_id VARCHAR(255) NOT NULL,
+    status ENUM('APPROVED', 'DECLINED', 'REFUNDED') NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE users(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(225) NOT NULL UNIQUE,
+    password VARCHAR(225) NOT NULL,
+    birthdate DATE NOT NULL,
+    role ENUM('ADMIN', 'CLIENTE') NOT NULL
+);
+
+CREATE TABLE purchases(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    payment_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    video_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status_purchase_admin BOOLEAN NOT NULL DEFAULT TRUE,
+    status_purchase_cliente BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (video_id) REFERENCES videos(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE KEY unique_purchase (payment_id, user_id, video_id)
+);
