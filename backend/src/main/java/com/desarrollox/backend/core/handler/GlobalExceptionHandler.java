@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.desarrollox.backend.api_auth.exception.InvalidCredentialsException;
 import com.desarrollox.backend.api_auth.exception.InvalidTokenException;
+import com.desarrollox.backend.api_photos.exception.PhotoNotFoundException;
 import com.desarrollox.backend.api_register.exception.UserNotFoundException;
+import com.desarrollox.backend.api_videos.exception.VideoNotFoundException;
 import com.desarrollox.backend.core.exception.NoAdminAccessException;
 import com.desarrollox.backend.core.exception.NoClientAccessException;
 import com.desarrollox.backend.core.exception.NoTokenException;
@@ -41,7 +43,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(
         {
-            UserNotFoundException.class
+            UserNotFoundException.class,
+            PhotoNotFoundException.class,
+            VideoNotFoundException.class
         }
     )
     public ResponseEntity<Map<String, Object>> handleNotFound(RuntimeException ex){

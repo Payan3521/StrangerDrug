@@ -77,13 +77,22 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/sections").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/sections/{id}").hasRole("ADMIN")
 
+                //photos
+                .requestMatchers(HttpMethod.POST, "/api/photos/upload-thumbnail").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/photos/upload-profile").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/photos/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/photos/update-thumbnail/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/photos/update-profile/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/photos/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/photos").hasRole("ADMIN")
+
                 //videos
                 .requestMatchers(HttpMethod.POST, "/api/videos/upload-video").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/videos/upload-preview").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/api/videos/upload-thumbnail").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/api/videos/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/videos").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/videos/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/videos/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/videos/update-preview/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/videos/update-video/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/videos/{id}").hasRole("ADMIN")
 
                 .anyRequest().authenticated()

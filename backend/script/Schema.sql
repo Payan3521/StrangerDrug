@@ -1,3 +1,4 @@
+-- Active: 1764023905842@@127.0.0.1@3306@StrangerDrug
 CREATE DATABASE IF NOT EXISTS StrangerDrug;
 
 USE StrangerDrug;
@@ -24,4 +25,20 @@ CREATE TABLE refresh_tokens(
     revoked BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     revoked_at TIMESTAMP
+);
+
+CREATE TABLE videos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    s3_bucket VARCHAR(150) NOT NULL,
+    s3_key VARCHAR(300) NOT NULL,
+    s3_url VARCHAR(500),
+    video_type ENUM('MAIN', 'PREVIEW') NOT NULL
+);
+
+CREATE TABLE photos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    s3_bucket VARCHAR(150) NOT NULL,
+    s3_key VARCHAR(300) NOT NULL,
+    s3_url VARCHAR(500) NOT NULL,
+    photo_type ENUM('THUMBNAIL', 'PROFILE') NOT NULL
 );
