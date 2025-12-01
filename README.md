@@ -10,9 +10,10 @@ guards
 3. api de pagos
 4. resto de apis
     - posts
+    - validaciones de dtos
 5. conectar con el frontend (diagramar flujo entre backend y frontend)
 
-6. docker y desplegar en aws
+6. docker y desplegar en aws (CI/CD github actions y aws codepipeline)
 
 1. terminos y condiciones
 2. politica de privacidad

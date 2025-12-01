@@ -12,6 +12,7 @@ import com.desarrollox.backend.api_auth.exception.InvalidTokenException;
 import com.desarrollox.backend.api_models.exception.ModelNotFoundException;
 import com.desarrollox.backend.api_notifications.exception.NotificationNotFoundException;
 import com.desarrollox.backend.api_photos.exception.PhotoNotFoundException;
+import com.desarrollox.backend.api_posts.exception.PostNotFoundException;
 import com.desarrollox.backend.api_purchases.exception.PaymentAlreadyUsedException;
 import com.desarrollox.backend.api_purchases.exception.PurchaseAlreadyRegisteredException;
 import com.desarrollox.backend.api_purchases.exception.PurchaseNotFoundException;
@@ -58,7 +59,8 @@ public class GlobalExceptionHandler {
             SectionNotFoundException.class,
             ModelNotFoundException.class,
             NotificationNotFoundException.class,
-            PurchaseNotFoundException.class
+            PurchaseNotFoundException.class,
+            PostNotFoundException.class
         }
     )
     public ResponseEntity<Map<String, Object>> handleNotFound(RuntimeException ex){
