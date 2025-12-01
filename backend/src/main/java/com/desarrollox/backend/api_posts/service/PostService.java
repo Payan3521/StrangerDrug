@@ -304,7 +304,7 @@ public class PostService implements IPostService {
 
     @Override
     public List<PostResponseDto> getPostByModelName(String modelName) {
-        List<PostModel> postModels = postModelRepository.findByModel_NameContainingIgnoreCase(modelName);
+        List<PostModel> postModels = postModelRepository.findByModelName(modelName);
 
         return postModels.stream()
                 .map(PostModel::getPost)
@@ -318,7 +318,7 @@ public class PostService implements IPostService {
         // Eliminamos la validación estricta para permitir búsqueda parcial
         // if (!sectionRepository.existsByName(sectionName)) { ... }
 
-        return postRepository.findBySectionNameStartingWithIgnoreCase(sectionName).stream()
+        return postRepository.findBySectionName(sectionName).stream()
                 .map(this::mapToResponseDto)
                 .toList();
     }
