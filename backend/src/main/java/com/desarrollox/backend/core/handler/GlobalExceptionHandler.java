@@ -9,8 +9,17 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.desarrollox.backend.api_auth.exception.InvalidCredentialsException;
 import com.desarrollox.backend.api_auth.exception.InvalidTokenException;
+import com.desarrollox.backend.api_models.exception.ModelNotFoundException;
+import com.desarrollox.backend.api_notifications.exception.NotificationNotFoundException;
 import com.desarrollox.backend.api_photos.exception.PhotoNotFoundException;
+import com.desarrollox.backend.api_purchases.exception.PaymentAlreadyUsedException;
+import com.desarrollox.backend.api_purchases.exception.PurchaseAlreadyRegisteredException;
+import com.desarrollox.backend.api_purchases.exception.PurchaseNotFoundException;
+import com.desarrollox.backend.api_register.exception.InvalidAgeException;
+import com.desarrollox.backend.api_register.exception.UserAlreadyRegisteredException;
 import com.desarrollox.backend.api_register.exception.UserNotFoundException;
+import com.desarrollox.backend.api_sections.exception.SectionAlreadyRegisteredException;
+import com.desarrollox.backend.api_sections.exception.SectionNotFoundException;
 import com.desarrollox.backend.api_videos.exception.VideoNotFoundException;
 import com.desarrollox.backend.core.exception.NoAdminAccessException;
 import com.desarrollox.backend.core.exception.NoClientAccessException;
@@ -45,10 +54,31 @@ public class GlobalExceptionHandler {
         {
             UserNotFoundException.class,
             PhotoNotFoundException.class,
-            VideoNotFoundException.class
+            VideoNotFoundException.class,
+            SectionNotFoundException.class,
+            ModelNotFoundException.class,
+            NotificationNotFoundException.class,
+            PurchaseNotFoundException.class
         }
     )
     public ResponseEntity<Map<String, Object>> handleNotFound(RuntimeException ex){
         return buildResponse(HttpStatus.NOT_FOUND, "Recurso no encontrado", ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidAgeException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidAge(InvalidAgeException ex){
+        return buildResponse(HttpStatus.BAD_REQUEST, "Edad inválida", ex.getMessage());
+    }
+
+    @ExceptionHandler(
+        {
+            UserAlreadyRegisteredException.class,
+            PurchaseAlreadyRegisteredException.class,
+            SectionAlreadyRegisteredException.class,
+            PaymentAlreadyUsedException.class
+        }
+    )
+    public ResponseEntity<Map<String, Object>> handleConflict(RuntimeException ex) {
+        return buildResponse(HttpStatus.CONFLICT, "Conflicto en la solicitud", ex.getMessage());
     }
 }

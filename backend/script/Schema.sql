@@ -46,7 +46,7 @@ CREATE TABLE photos (
 CREATE TABLE payments(
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     transaction_id VARCHAR(255) NOT NULL,
-    status ENUM('APPROVED', 'DECLINED', 'REFUNDED') NOT NULL,
+    status ENUM('APPROVED', 'DECLINED', 'REFUNDED', 'PENDING') NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -62,7 +62,7 @@ CREATE TABLE users(
 
 CREATE TABLE purchases(
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    payment_id BIGINT NOT NULL,
+    payment_id BIGINT NOT NULL UNIQUE,
     user_id BIGINT NOT NULL,
     video_id BIGINT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -72,4 +72,31 @@ CREATE TABLE purchases(
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (video_id) REFERENCES videos(id) ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE KEY unique_purchase (payment_id, user_id, video_id)
+);
+
+CREATE TABLE sections(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT NOT NULL
+);
+
+CREATE TABLE models(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    biography TEXT,
+    photo_id BIGINT NOT NULL,
+    FOREIGN KEY (photo_id) REFERENCES photos(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE notifications(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    message TEXT NOT NULL,
+    purchase_id BIGINT NOT NULL,
+    sender_user_id BIGINT NOT NULL,
+    receiver_user_id BIGINT NOT NULL,
+
+    FOREIGN KEY (purchase_id) REFERENCES purchases(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (sender_user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (receiver_user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

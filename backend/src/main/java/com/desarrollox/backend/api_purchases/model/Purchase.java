@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import com.desarrollox.backend.api_payment.model.Payment;
 import com.desarrollox.backend.api_register.model.User;
 import com.desarrollox.backend.api_videos.model.Video;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -55,6 +54,8 @@ public class Purchase {
     @PrePersist
     private void prePersist() {
         this.createdAt = LocalDateTime.now();
+        this.statusPurchaseAdmin = true;
+        this.statusPurchaseCliente = true;
     }
     
 }
