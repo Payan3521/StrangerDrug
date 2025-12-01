@@ -10,8 +10,9 @@ guards
 3. api de pagos
 4. resto de apis
     - posts
-    - purchases
-5. conectar con el frontend
+5. conectar con el frontend (diagramar flujo entre backend y frontend)
+
+6. docker y desplegar en aws
 
 1. terminos y condiciones
 2. politica de privacidad

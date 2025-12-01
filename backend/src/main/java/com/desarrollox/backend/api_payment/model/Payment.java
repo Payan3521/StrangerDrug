@@ -3,6 +3,8 @@ package com.desarrollox.backend.api_payment.model;
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +30,7 @@ public class Payment {
     @Column(name = "transaction_id", nullable = false)
     private String transactionId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private PaymentStatus status;
 
@@ -40,11 +43,13 @@ public class Payment {
     public enum PaymentStatus {
         APPROVED,
         DECLINED,
-        REFUNDED
+        REFUNDED,
+        PENDING
     }
 
     @PrePersist
     protected void prePersist() {
         this.createdAt = LocalDateTime.now();
+        this.status = PaymentStatus.PENDING;
     }
 }
