@@ -9,7 +9,6 @@ guards
 2. diagrama de la base de datos
 3. api de pagos
 4. resto de apis
-    - posts
     - validaciones de dtos
 5. conectar con el frontend (diagramar flujo entre backend y frontend)
 
@@ -26,3 +25,5 @@ guards
 9. sitio web 100% funcional
 10. ssl
 11. dominio
+
+pasar base de datos privada
