@@ -1,39 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, tap, catchError } from 'rxjs';
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  tokenType: string;
+  expiresIn: number;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+    birthdate: string;
+  };
+  scope: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/stranger-drug/api/auth';
+  private apiUrl = 'http://localhost:8080/api/auth';
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) { }
 
-  login(email: string, password:string): Observable<any>{
-    const body = { email, password };
-    return this.http.post(`${this.apiUrl}/login`, body); // ⬅️ Endpoint /login
-  }
-
-  refreshToken(oldRefreshToken: string): Observable<any>{
-    const body = { refreshToken: oldRefreshToken };
-    return this.http.post(`${this.apiUrl}/refresh-token`, body); // ⬅️ Endpoint /refresh-token
-  }
-
-  logout() {
-    // 1. Limpia los tokens del almacenamiento
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    
-    // 2. (Opcional) Navega al login
-    // Necesitarías inyectar el Router aquí:
-    // constructor(private http: HttpClient, private router: Router) {}
-    // this.router.navigate(['/login']); 
-
-    // Puedes agregar una llamada al backend si quieres invalidar el token en DB inmediatamente
-    // const refreshToken = localStorage.getItem('refreshToken');
-    // if (refreshToken) {
-    //   this.http.post(`${this.baseUrl}/logout`, { refreshToken }).subscribe();
-    // }
+  login(credentials: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 }

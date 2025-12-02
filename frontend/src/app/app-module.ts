@@ -5,7 +5,6 @@ import { App } from './app';
 import { Login } from './pages/login/login';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { TokenInterceptor } from './interceptors/token-interceptor-interceptor';
 import { Register } from './pages/register/register';
 import { Home } from './pages/home/home';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -39,12 +38,7 @@ import { Library } from './pages/library/library';
     FontAwesomeModule
   ],
   providers: [
-    provideBrowserGlobalErrorListeners(),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
+    provideBrowserGlobalErrorListeners()
   ],
   bootstrap: [App]
 })

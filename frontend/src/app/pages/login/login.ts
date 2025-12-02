@@ -23,25 +23,33 @@ export class Login {
   iniciarSesion() {
     this.errorMessage = '';
 
-    this.authService.login(this.usuarioOCorreo, this.contrasena).subscribe({
+    const credentials = {
+      email: this.usuarioOCorreo,
+      password: this.contrasena
+    };
+
+    this.authService.login(credentials).subscribe({
       next: (response) => {
         console.log('Login exitoso', response);
 
         localStorage.setItem('accessToken', response.accessToken);
         localStorage.setItem('refreshToken', response.refreshToken);
 
-        this.router.navigate(['/home'])
+        // Guardar información del usuario si es necesario
+        localStorage.setItem('user', JSON.stringify(response.user));
+
+        this.router.navigate(['/home']);
       },
 
       error: (error) => {
         console.error('Error de autenticacion', error);
 
-        if (error.status === 401) {
-          this.errorMessage = 'Credenciales invalidas';
+        if (error.error && error.error.message) {
+          this.errorMessage = error.error.message;
         } else {
-          this.errorMessage = 'Error al iniciar sesión';
+          this.errorMessage = 'Error al iniciar sesión. Por favor intente más tarde.';
         }
       }
-    })
+    });
   }
 }
