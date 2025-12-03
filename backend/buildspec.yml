@@ -1,0 +1,22 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      # Instala la última versión de Java y Maven. La imagen Standard 4.0 ya incluye Maven y Java.
+      - echo "Instalando dependencias (si es necesario)..." 
+  build:
+    commands:
+      - cd backend/ 
+      - echo "Compilando aplicación Spring Boot con Maven..."
+      - mvn clean package -DskipTests # El flag -DskipTests omite las pruebas unitarias para un build más rápido
+  post_build:
+    commands:
+      # El archivo JAR generado por Maven está en target/. Lo renombramos y lo comprimimos para EB.
+      - echo "Creando artefacto de despliegue para Elastic Beanstalk..."
+      - cp target/*.jar application.jar
+      - zip -r deploy-backend.zip application.jar
+artifacts:
+  files:
+    # Solo envía el ZIP que contiene el JAR renombrado.
+    - deploy-backend.zip
+  discard-paths: yes
