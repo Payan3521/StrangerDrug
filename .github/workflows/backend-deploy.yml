@@ -37,7 +37,7 @@ jobs:
         run: mvn -f backend/pom.xml clean install -DskipTests
         
       - name: Configure AWS CLI
-        uses: aws-actions/setup-aws-cli@v4
+        uses: aws-actions/setup-aws-cli@v1
 
       - name: Create Deployment Zip
         run: |
