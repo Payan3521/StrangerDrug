@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Set up JDK 21
+        # Se corrige el error de sintaxis aquí: usa 'uses: actions/setup-java@v4'
         uses: actions/setup-java@v4
         with:
           java-version: '21'
@@ -54,13 +55,38 @@ jobs:
             --version-label ${{github.sha}} \
             --source-bundle S3Bucket=elasticbeanstalk-us-east-1-589490472753,S3Key=deployment-package.zip 
             
-          # 🚨 3b. CORRECCIÓN: Aumentamos el SLEEP a 120 segundos para asegurar el procesamiento
-          # Esto resuelve el error "No Application Version named '...' found."
-          echo "Esperando 120 segundos para que AWS procese la versión de la aplicación antes de desplegar..."
-          sleep 120
+          # 🚨 3b. CORRECCIÓN DEFINITIVA: Espera dinámica (Polling)
+          echo "Iniciando espera dinámica (máx 5 min) para que AWS procese la versión..."
+          
+          STATUS="UNPROCESSED"
+          MAX_CHECKS=30 # 30 checks * 10 seconds = 5 minutos
+          CHECK_COUNT=0
+
+          while [ "$STATUS" = "UNPROCESSED" ] && [ "$CHECK_COUNT" -lt "$MAX_CHECKS" ]; do
+              STATUS=$(aws elasticbeanstalk describe-application-versions \
+                  --application-name StrangerDrugApp \
+                  --version-labels ${{github.sha}} \
+                  --query "ApplicationVersions[0].Status" \
+                  --output text)
+              
+              if [ "$STATUS" = "UNPROCESSED" ]; then
+                  echo "Estado: UNPROCESSED. Esperando 10 segundos..."
+                  sleep 10
+                  CHECK_COUNT=$((CHECK_COUNT + 1))
+              elif [ "$STATUS" = "FAILED" ]; then
+                  echo "Error: El procesamiento de la versión falló en AWS."
+                  exit 1
+              fi
+          done
+
+          if [ "$STATUS" = "UNPROCESSED" ]; then
+              echo "Error: Tiempo de espera agotado (5 minutos). El procesamiento falló."
+              exit 1
+          fi
+
+          echo "Versión procesada ($STATUS). Procediendo con el despliegue..."
 
           # 4. Actualizar el entorno para usar la nueva versión
-          # (El despliegue ahora se ejecuta sin un 'wait' final para evitar problemas de compatibilidad de la CLI)
           aws elasticbeanstalk update-environment \
             --environment-name StrangerDrug-env \
             --version-label ${{github.sha}}
