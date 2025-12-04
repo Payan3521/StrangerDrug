@@ -1,0 +1,43 @@
+name: Deploy Backend (Spring Boot) to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**' # Solo se ejecuta si hay cambios en el Backend
+      - '.github/workflows/backend-deploy.yml'
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          # Usarás tu ID de cuenta y el nombre del rol que acabas de configurar
+          role-to-assume: arn:aws:iam::589490472753:role/GitHub-Actions-Deploy-Role
+          aws-region: us-east-1 # Norte de Virginia
+
+      - name: Build with Maven
+        run: mvn -f backend/pom.xml clean install -DskipTests
+        
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          application_name: StrangerDrugApp
+          environment_name: StrangerDrug-env
+          version_label: ${{github.sha}}
+          region: us-east-1
+          # Asegúrate de que el nombre del JAR coincida con el que genera Maven
+          deployment_package: backend/target/backend-0.0.1-SNAPSHOT.jar
