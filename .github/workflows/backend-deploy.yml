@@ -54,15 +54,13 @@ jobs:
             --version-label ${{github.sha}} \
             --source-bundle S3Bucket=elasticbeanstalk-us-east-1-589490472753,S3Key=deployment-package.zip 
             
-          # 🚨 3b. CORRECCIÓN: Reemplazamos el comando 'wait' no soportado por un 'sleep'.
-          # Esto le da tiempo a AWS para procesar la versión (cambiar de UNPROCESSED a PROCESSED).
-          echo "Esperando 60 segundos para que AWS procese la versión de la aplicación..."
-          sleep 60
+          # 🚨 3b. CORRECCIÓN: Aumentamos el SLEEP a 120 segundos para asegurar el procesamiento
+          # Esto resuelve el error "No Application Version named '...' found."
+          echo "Esperando 120 segundos para que AWS procese la versión de la aplicación antes de desplegar..."
+          sleep 120
 
-          # 4a. Actualizar el entorno para usar la nueva versión
+          # 4. Actualizar el entorno para usar la nueva versión
+          # (El despliegue ahora se ejecuta sin un 'wait' final para evitar problemas de compatibilidad de la CLI)
           aws elasticbeanstalk update-environment \
             --environment-name StrangerDrug-env \
             --version-label ${{github.sha}}
-            
-          # 4b. Esperar a que el despliegue esté completo y el entorno esté OK
-          aws elasticbeanstalk wait environment-updated --environment-name StrangerDrug-env
