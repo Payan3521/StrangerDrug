@@ -36,11 +36,6 @@ jobs:
       - name: Build with Maven
         run: mvn -f backend/pom.xml clean install -DskipTests
       
-      # 🚨 NUEVO PASO: Configurar la CLI para asegurar que esté lista.
-      # Aunque configure-aws-credentials la instala, este paso es una buena práctica.
-      - name: Configure AWS CLI
-        uses: aws-actions/setup-aws-cli@v4
-
       - name: Create Deployment Zip
         run: |
           # 1. Empaquetar el JAR
