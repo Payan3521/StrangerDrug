@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   build_and_deploy:
-    runs-on: ubuntu-latest  # <-- Esto es el runner de GitHub, no tu EB
+    runs-on: ubuntu-latest
     
     steps:
       - name: Checkout Code
@@ -29,24 +29,38 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          # ARN del Rol de Despliegue IAM
+          # ARN del Rol de Despliegue IAM (Autenticación OIDC)
           role-to-assume: arn:aws:iam::589490472753:role/GitHub-Actions-Deploy-Role
           aws-region: us-east-1
 
       - name: Build with Maven
         run: mvn -f backend/pom.xml clean install -DskipTests
+      
+      # 🚨 NUEVO PASO: Configurar la CLI para asegurar que esté lista.
+      # Aunque configure-aws-credentials la instala, este paso es una buena práctica.
+      - name: Configure AWS CLI
+        uses: aws-actions/setup-aws-cli@v4
 
       - name: Create Deployment Zip
         run: |
+          # 1. Empaquetar el JAR
           zip -r deployment-package.zip backend/target/backend-0.0.1-SNAPSHOT.jar 
+          
+      - name: Upload Deployment Package to S3 📦
+        run: |
+          # 2. SUBIR el ZIP al bucket de artefactos de Elastic Beanstalk
+          # Esto resuelve el error "Reason: Not Found"
+          aws s3 cp deployment-package.zip s3://elasticbeanstalk-us-east-1-589490472753/deployment-package.zip
           
       - name: Deploy to Elastic Beanstalk via CLI
         run: |
+          # 3. Crear la versión de la aplicación (usando el archivo que ya está en S3)
           aws elasticbeanstalk create-application-version \
             --application-name StrangerDrugApp \
             --version-label ${{github.sha}} \
             --source-bundle S3Bucket=elasticbeanstalk-us-east-1-589490472753,S3Key=deployment-package.zip 
             
+          # 4. Actualizar el entorno para usar la nueva versión
           aws elasticbeanstalk update-environment \
             --environment-name StrangerDrug-env \
             --version-label ${{github.sha}}
