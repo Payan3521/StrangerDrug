@@ -21,7 +21,6 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Set up JDK 21
-        # Se corrige el error de sintaxis aquí: usa 'uses: actions/setup-java@v4'
         uses: actions/setup-java@v4
         with:
           java-version: '21'
@@ -37,10 +36,18 @@ jobs:
       - name: Build with Maven
         run: mvn -f backend/pom.xml clean install -DskipTests
 
-      - name: Create Deployment Zip
+      - name: Create Deployment Zip (CORRECCIÓN: JAR en la raíz)
         run: |
-          # 1. Empaquetar el JAR
-          zip -r deployment-package.zip backend/target/backend-0.0.1-SNAPSHOT.jar 
+          # 🚨 CORRECCIÓN CLAVE: Esto asegura que el JAR esté en la raíz del ZIP,
+          # lo que Elastic Beanstalk espera para ejecutar aplicaciones Java.
+          # 1. Creamos un directorio temporal.
+          mkdir -p deployment-staging
+          # 2. Copiamos el JAR y lo renombramos a application.jar (típico nombre de EB)
+          cp backend/target/backend-0.0.1-SNAPSHOT.jar deployment-staging/application.jar
+          # 3. Comprimimos el contenido de ese directorio temporal.
+          cd deployment-staging
+          zip -r ../deployment-package.zip application.jar
+          cd ..
           
       - name: Upload Deployment Package to S3 📦
         run: |
@@ -49,44 +56,19 @@ jobs:
           
       - name: Deploy to Elastic Beanstalk via CLI
         run: |
-          # 3a. Crear la versión de la aplicación
+          # 3. Crear la versión de la aplicación
           aws elasticbeanstalk create-application-version \
             --application-name StrangerDrugApp \
             --version-label ${{github.sha}} \
             --source-bundle S3Bucket=elasticbeanstalk-us-east-1-589490472753,S3Key=deployment-package.zip 
             
-          # 🚨 3b. CORRECCIÓN DEFINITIVA: Espera dinámica (Polling)
-          echo "Iniciando espera dinámica (máx 5 min) para que AWS procese la versión..."
-          
-          STATUS="UNPROCESSED"
-          MAX_CHECKS=30 # 30 checks * 10 seconds = 5 minutos
-          CHECK_COUNT=0
-
-          while [ "$STATUS" = "UNPROCESSED" ] && [ "$CHECK_COUNT" -lt "$MAX_CHECKS" ]; do
-              STATUS=$(aws elasticbeanstalk describe-application-versions \
-                  --application-name StrangerDrugApp \
-                  --version-labels ${{github.sha}} \
-                  --query "ApplicationVersions[0].Status" \
-                  --output text)
-              
-              if [ "$STATUS" = "UNPROCESSED" ]; then
-                  echo "Estado: UNPROCESSED. Esperando 10 segundos..."
-                  sleep 10
-                  CHECK_COUNT=$((CHECK_COUNT + 1))
-              elif [ "$STATUS" = "FAILED" ]; then
-                  echo "Error: El procesamiento de la versión falló en AWS."
-                  exit 1
-              fi
-          done
-
-          if [ "$STATUS" = "UNPROCESSED" ]; then
-              echo "Error: Tiempo de espera agotado (5 minutos). El procesamiento falló."
-              exit 1
-          fi
-
-          echo "Versión procesada ($STATUS). Procediendo con el despliegue..."
-
-          # 4. Actualizar el entorno para usar la nueva versión
+          # 4. Actualizar el entorno (La espera se realiza con el comando 'wait' final)
           aws elasticbeanstalk update-environment \
             --environment-name StrangerDrug-env \
             --version-label ${{github.sha}}
+            
+          # 5. Esperar a que el despliegue esté completo y el entorno esté OK.
+          # Si el paquete es correcto, este comando debería funcionar y la acción finalizará
+          # solo cuando el servidor esté en ejecución.
+          echo "Esperando que el entorno StrangerDrug-env se actualice y esté OK..."
+          aws elasticbeanstalk wait environment-updated --environment-name StrangerDrug-env
