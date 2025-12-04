@@ -36,7 +36,7 @@ jobs:
       - name: Build with Maven
         run: mvn -f backend/pom.xml clean install -DskipTests
 
-      - name: Create Deployment Zip (CORRECCIÓN: JAR en la raíz)
+      - name: Create Deployment Zip
         run: |
           # 🚨 CORRECCIÓN CLAVE: Esto asegura que el JAR esté en la raíz del ZIP,
           # lo que Elastic Beanstalk espera para ejecutar aplicaciones Java.
