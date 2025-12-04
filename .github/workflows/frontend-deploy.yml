@@ -8,6 +8,10 @@ on:
       - 'frontend/**' # Solo se ejecuta si hay cambios en el Frontend
       - '.github/workflows/frontend-deploy.yml'
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
