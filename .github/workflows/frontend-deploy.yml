@@ -1,0 +1,42 @@
+name: Deploy Frontend to S3/CloudFront
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**' # Solo se ejecuta si hay cambios en el Frontend
+      - '.github/workflows/frontend-deploy.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies and Build Frontend
+        run: |
+          npm install
+          npm run build # Asume que 'npm run build' genera los archivos
+        working-directory: ./frontend
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::589490472753:role/GitHub-Actions-Deploy-Role
+          aws-region: us-east-1
+
+      - name: Sync files to S3
+        # Asegúrate de que 'frontend/dist/' sea la carpeta de salida real de tu build
+        run: aws s3 sync frontend/dist/browser s3://tranger-drug-frontend-production --delete 
+
+      - name: Create CloudFront Invalidations
+        # Esto asegura que los usuarios vean el código nuevo inmediatamente
+        run: aws cloudfront create-invalidation --distribution-id E28JGZTGV97L4H --paths "/*"
