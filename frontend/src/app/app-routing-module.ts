@@ -11,6 +11,7 @@ import { Notifications } from './pages/notification/notification';
 import { Library } from './pages/library/library';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
   { path: 'home', component: Home },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'model-gallery', component: ModelGallery },
   { path: 'notification', component: Notifications },
   { path: 'library', component: Library },
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({
