@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { marked } from 'marked';
 
 @Component({
   selector: 'app-register',
@@ -18,12 +20,12 @@ export class Register {
   mostrarConfirmarContrasena: boolean = false;
 
   mostrarModalTerminos: boolean = false;
-  
-  
+  termsContent: string = '';
+
   errorMessage: string = '';
   successMessage: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
     // Aquí podrías inyectar el AuthService si fueras a enviar los datos
   }
 
@@ -38,8 +40,20 @@ export class Register {
   // NUEVOS MÉTODOS para el Modal
   abrirModalTerminos() {
     this.mostrarModalTerminos = true;
+    if (!this.termsContent) {
+      this.http.get('assets/terms_and_conditions.md', { responseType: 'text' })
+        .subscribe({
+          next: (data) => {
+            this.termsContent = marked.parse(data) as string;
+          },
+          error: (err) => {
+            console.error('Error loading terms:', err);
+            this.termsContent = '<p>Error al cargar los términos y condiciones.</p>';
+          }
+        });
+    }
   }
-  
+
   cerrarModalTerminos() {
     this.mostrarModalTerminos = false;
   }
@@ -72,7 +86,7 @@ export class Register {
 
     // Redirigir al login después de un breve retraso
     setTimeout(() => {
-        this.router.navigate(['/login']); 
+      this.router.navigate(['/login']);
     }, 2000);
   }
 }

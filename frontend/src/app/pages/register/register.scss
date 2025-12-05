@@ -4,8 +4,10 @@
 
 /* Variables de color (reutilizadas del login) */
 :host {
-    --color-dark: #1e112a; /* Fondo muy oscuro */
-    --color-primary: #f700ff9b; /* Púrpura brillante unificado */
+    --color-dark: #1e112a;
+    /* Fondo muy oscuro */
+    --color-primary: #f700ff9b;
+    /* Púrpura brillante unificado */
     --color-text-light: #e0e0e0;
     --color-text-placeholder: #a0a0a0;
 }
@@ -18,7 +20,8 @@
     min-height: 100vh;
     width: 100%;
     background-color: var(--color-dark);
-    font-family: 'Instrument Serif', serif; /* Usar la fuente del logo en todo si se desea */
+    font-family: 'Instrument Serif', serif;
+    /* Usar la fuente del logo en todo si se desea */
     padding: 20px;
     box-sizing: border-box;
 }
@@ -29,20 +32,23 @@
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     width: 100%;
-    max-width: 450px; /* Un poco más ancho que el login por la doble columna */
+    max-width: 450px;
+    /* Un poco más ancho que el login por la doble columna */
     text-align: center;
     border: 2px solid var(--color-primary);
 }
 
 .logo {
     font-size: 2.5rem;
-    color: var(--color-text-light); 
+    color: var(--color-text-light);
     margin-bottom: 5px;
-    font-family: 'Instrument Serif', serif; 
+    font-family: 'Instrument Serif', serif;
 }
+
 .logo-accent {
     color: var(--color-primary);
 }
+
 .title {
     font-size: 1.5rem;
     color: var(--color-text-light);
@@ -54,45 +60,54 @@
 /* 1. ESTILO DE LA FILA DE DOS COLUMNAS (Nombres/Apellidos) */
 .input-row {
     display: flex;
-    gap: 15px; /* Espacio entre las columnas */
-    margin-bottom: 10px; /* Reducir margen porque la fila tiene 2 inputs */
+    gap: 15px;
+    /* Espacio entre las columnas */
+    margin-bottom: 10px;
+    /* Reducir margen porque la fila tiene 2 inputs */
 }
 
 .input-row .input-group {
-    flex: 1; /* Hace que ambos inputs ocupen el 50% del ancho */
+    flex: 1;
+    /* Hace que ambos inputs ocupen el 50% del ancho */
     margin-bottom: 0;
 }
+
 .input-group {
     position: relative;
-    margin-bottom: 15px; /* Margen para inputs de una sola columna */
+    margin-bottom: 15px;
+    /* Margen para inputs de una sola columna */
 }
 
 
 /* 2. Estilo del Input de Fecha (para que el placeholder se vea bien) */
 .date-input {
     /* Color de texto siempre claro */
-    color: var(--color-text-light) !important; 
+    color: var(--color-text-light) !important;
 }
 
 /* 3. Estilo del Checkbox de Términos */
 .input-terms {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Alineación a la izquierda */
+    justify-content: flex-start;
+    /* Alineación a la izquierda */
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.input-terms .link-terminos { 
+.input-terms .link-terminos {
     color: var(--color-primary);
     text-decoration: none;
-    cursor: pointer; /* <--- ESTO FUERZA EL PUNTERO CLIQUEABLE */
-    margin-left: 5px; /* Pequeño espacio entre el checkbox y el texto */
+    cursor: pointer;
+    /* <--- ESTO FUERZA EL PUNTERO CLIQUEABLE */
+    margin-left: 5px;
+    /* Pequeño espacio entre el checkbox y el texto */
     transition: color 0.3s;
 }
 
 .input-terms .link-terminos:hover {
-    text-decoration: underline; /* Opcional: añadir un subrayado al pasar el mouse */
+    text-decoration: underline;
+    /* Opcional: añadir un subrayado al pasar el mouse */
 }
 
 .input-terms a {
@@ -119,7 +134,8 @@
 }
 
 .input-terms input[type="checkbox"]:checked::after {
-    content: '✓'; /* Símbolo de check */
+    content: '✓';
+    /* Símbolo de check */
     position: absolute;
     top: -2px;
     left: 2px;
@@ -140,12 +156,15 @@
     font-size: 0.9rem;
     text-align: center;
 }
+
 .success-message {
     margin-top: 10px;
     padding: 10px;
     border-radius: 5px;
-    background-color: #194a21; /* Fondo verde oscuro */
-    color: #57ff6d; /* Texto verde brillante */
+    background-color: #194a21;
+    /* Fondo verde oscuro */
+    color: #57ff6d;
+    /* Texto verde brillante */
     border: 1px solid #57ff6d;
     font-size: 0.9rem;
     text-align: center;
@@ -154,7 +173,7 @@
 /* Reutilizar estilos de inputs y botones de login.component.css */
 .input-group input {
     width: 100%;
-    padding: 15px 45px 15px 15px; 
+    padding: 15px 45px 15px 15px;
     border: none;
     border-radius: 8px;
     background-color: #402a58;
@@ -164,6 +183,7 @@
     outline: none;
     border: 1px solid transparent;
 }
+
 .btn-acceder {
     width: 100%;
     padding: 15px;
@@ -179,13 +199,15 @@
 }
 
 .btn-acceder:hover {
-    background-color: #a042ff; /* Púrpura ligeramente más claro y consistente */
+    background-color: #a042ff;
+    /* Púrpura ligeramente más claro y consistente */
     box-shadow: 0 0 10px var(--color-primary);
 }
 
 /* Para asegurar que el botón se deshabilite correctamente */
 .btn-acceder:disabled {
-    background-color: #402a58; /* Color tenue para indicar inactividad */
+    background-color: #402a58;
+    /* Color tenue para indicar inactividad */
     cursor: not-allowed;
     box-shadow: none;
     opacity: 0.6;
@@ -197,20 +219,24 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); /* Fondo muy oscuro, ligeramente transparente */
+    background-color: rgba(0, 0, 0, 0.85);
+    /* Fondo muy oscuro, ligeramente transparente */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Asegurar que esté encima de todo */
+    z-index: 1000;
+    /* Asegurar que esté encima de todo */
 }
 
 .modal-content {
-    background-color: #2a193c; /* Color de fondo secundario */
+    background-color: #2a193c;
+    /* Color de fondo secundario */
     padding: 25px;
     border-radius: 10px;
     width: 90%;
     max-width: 600px;
-    max-height: 80vh; /* Para que sea scrollable si el contenido es largo */
+    max-height: 80vh;
+    /* Para que sea scrollable si el contenido es largo */
     overflow-y: auto;
     box-shadow: 0 0 30px rgba(247, 0, 255, 0.4);
     border: 2px solid var(--color-primary);
@@ -247,35 +273,63 @@
 }
 
 .modal-body {
-    padding-bottom: 20px;
-    font-size: 0.95rem;
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+    color: var(--color-text-light);
+    line-height: 1.6;
 }
 
-.modal-intro {
-    font-style: italic;
-    color: var(--color-text-placeholder);
-    margin-bottom: 20px;
-}
-
-.terminos-list {
-    list-style: none;
-    padding: 0;
-}
-
-.terminos-list li {
-    margin-bottom: 15px;
-}
-
-.terminos-list li p:first-child {
-    margin-top: 0;
-    margin-bottom: 5px;
+.modal-body .markdown-content h1,
+.modal-body .markdown-content h2,
+.modal-body .markdown-content h3 {
     color: var(--color-primary);
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.modal-body .markdown-content h1 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid rgba(247, 0, 255, 0.3);
+    padding-bottom: 0.5em;
+}
+
+.modal-body .markdown-content h2 {
+    font-size: 1.3rem;
+}
+
+.modal-body .markdown-content h3 {
+    font-size: 1.1rem;
+}
+
+.modal-body .markdown-content p {
+    margin-bottom: 1em;
+    color: var(--color-text-light);
+}
+
+.modal-body .markdown-content ul,
+.modal-body .markdown-content ol {
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+
+.modal-body .markdown-content ul li,
+.modal-body .markdown-content ol li {
+    margin-bottom: 0.5em;
+}
+
+.modal-body .markdown-content strong {
+    color: #fff;
     font-weight: bold;
 }
 
-.terminos-list li p {
-    margin-top: 0;
-    margin-bottom: 0;
+.modal-body .markdown-content a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.modal-body .markdown-content a:hover {
+    text-decoration: underline;
 }
 
 .modal-footer {
