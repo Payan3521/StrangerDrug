@@ -3,7 +3,7 @@
   <header class="header-nav">
     <div class="nav-content-wrapper">
       <h1 class="logo">Stranger<span class="logo-accent">Drug</span></h1>
-      
+
       <nav class="main-links">
         <a *ngIf="isAdmin" class="admin-link">Panel de administración</a>
         <a [routerLink]="['/notification']">Notificaciones</a>
@@ -17,7 +17,7 @@
       <button *ngIf="isLoggedIn" class="btn-cerrar-sesion" (click)="cerrarSesion()">
         Cerrar sesión
       </button>
-      </div>
+    </div>
   </header>
 
   <main class="content">
@@ -35,7 +35,10 @@
         <div class="grid-video-cards">
           <div class="video-card" *ngFor="let video of videosRecientes" [routerLink]="['/video', video.id]">
             <div class="video-placeholder">
-              <svg class="play-icon" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z"/></svg>
+              <svg class="play-icon" viewBox="0 0 512 512">
+                <path fill="currentColor"
+                  d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z" />
+              </svg>
             </div>
             <p class="card-title">{{ video.titulo }}</p>
             <p class="card-price">${{ video.precio.toFixed(2) }}</p>
@@ -60,30 +63,91 @@
       </section>
     </div>
   </main>
-  
+
   <footer class="footer">
     <div class="footer-content-wrapper">
       <div class="footer-section">
-        <p class="footer-link">Privacy Policy</p>
-        <p class="footer-link">Coockies Policy</p>
+        <p class="footer-link" (click)="openLegalModal('privacy')">Privacy Policy</p>
+        <p class="footer-link" (click)="openLegalModal('terms')">Terms and Conditions</p>
+        <p class="footer-link" (click)="openLegalModal('support')">Support</p>
+        <p class="footer-link" (click)="openLegalModal('about')">About Us</p>
       </div>
 
       <div class="footer-section center-logo">
         <h3 class="footer-logo">Stranger<span class="logo-accent">Drug</span></h3>
         <div class="social-icons">
-                    <img src="onlyfans.svg" class="social-svg">
-                    <img src="pornhub.svg" class="social-svg">
+          <img src="onlyfans.svg" class="social-svg">
+          <img src="pornhub.svg" class="social-svg">
           <fa-icon [icon]="['fab', 'facebook']"></fa-icon>
-                    <fa-icon [icon]="['fab', 'x-twitter']"></fa-icon>
+          <fa-icon [icon]="['fab', 'x-twitter']"></fa-icon>
           <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
         </div>
       </div>
 
       <div class="footer-section right-contact">
         <p class="contact-title">Desarrollo-X</p>
-        <p class="contact-email">Desarrollox@gmail.com</p>
+        <p class="contact-email"><a href="mailto:desarrolloxcol@gmail.com">desarrolloxcol@gmail.com</a></p>
       </div>
     </div>
   </footer>
+
+  <!-- Modal Legal -->
+  <div class="modal-overlay" *ngIf="showModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">{{ modalTitle }}</h3>
+        <button class="close-button" (click)="closeModal()">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div [innerHTML]="modalContent" class="markdown-content"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cerrar" (click)="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Age Verification Modal -->
+  <div class="age-modal-overlay" *ngIf="showAgeModal">
+    <div class="age-modal-content">
+      <div class="age-warning-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="64" height="64">
+          <path fill="#f700ff"
+            d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" />
+        </svg>
+      </div>
+      <h2 class="age-title">ADVERTENCIA DE CONTENIDO</h2>
+      <p class="age-text">Este sitio web contiene material con restricciones de edad, incluyendo desnudez y
+        representaciones explícitas de actividad sexual.</p>
+      <p class="age-text">Al entrar, afirmas que tienes al menos <strong>18 años</strong> de edad o la mayoría de edad
+        en la jurisdicción desde la que accedes al sitio.</p>
+
+      <div class="age-legal-links">
+        <span (click)="openLegalModal('terms')">Términos y Condiciones</span> |
+        <span (click)="openLegalModal('privacy')">Política de Privacidad</span>
+      </div>
+
+      <p class="age-disclaimer">Los padres deben utilizar controles parentales para bloquear el acceso a este sitio si
+        lo consideran inapropiado para sus hijos.</p>
+
+      <div class="age-buttons">
+        <button class="btn-age-confirm" (click)="confirmAge()">ENTRAR (Soy mayor de 18)</button>
+        <button class="btn-age-deny" (click)="denyAge()">SALIR</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Access Denied View -->
+  <div class="access-denied-overlay" *ngIf="accessDenied">
+    <div class="denied-content">
+      <h1>Acceso Denegado</h1>
+      <p>No puedes acceder a este sitio si eres menor de edad.</p>
+      <a href="https://www.google.com" class="btn-exit">Ir a Google</a>
+    </div>
+  </div>
 
 </div>

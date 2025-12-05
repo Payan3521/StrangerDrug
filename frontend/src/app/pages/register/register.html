@@ -4,81 +4,51 @@
     <h2 class="title">Registrarse</h2>
 
     <form class="login-form" (ngSubmit)="registrarme()">
-      
+
       <div class="input-row">
         <div class="input-group">
-          <input 
-            type="text" 
-            placeholder="Nombre" 
-            [(ngModel)]="nombre" 
-            name="nombre"
-            required
-          >
+          <input type="text" placeholder="Nombre" [(ngModel)]="nombre" name="nombre" required>
         </div>
       </div>
 
       <div class="input-group">
-        <input 
-          type="email" 
-          placeholder="Correo electrónico" 
-          [(ngModel)]="correo" 
-          name="correo"
-          required
-        >
-      </div>
-      
-      <div class="input-group">
-        <input 
-          type="date" 
-          placeholder="Fecha de nacimiento" 
-          [(ngModel)]="fechaNacimiento" 
-          name="fechaNacimiento"
-          required
-          class="date-input"
-        >
+        <input type="email" placeholder="Correo electrónico" [(ngModel)]="correo" name="correo" required>
       </div>
 
       <div class="input-group">
-        <input 
-          [type]="mostrarContrasena ? 'text' : 'password'" 
-          placeholder="Contraseña" 
-          [(ngModel)]="contrasena" 
-          name="contrasena"
-          required
-        >
+        <input type="date" placeholder="Fecha de nacimiento" [(ngModel)]="fechaNacimiento" name="fechaNacimiento"
+          required class="date-input">
+      </div>
+
+      <div class="input-group">
+        <input [type]="mostrarContrasena ? 'text' : 'password'" placeholder="Contraseña" [(ngModel)]="contrasena"
+          name="contrasena" required>
         <span class="password-toggle" (click)="toggleMostrarContrasena()">
           <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
-            <path d="M288 32c-80.8 0-161.7 13.9-241 41.5-6.8 2.5-12.7 8.3-15.3 15.3-2.6 7-1.5 14.5 3 20.3l37.3 48.2c8.9 11.4 22.3 17.5 36.5 17.5 2.5 0 5-.2 7.5-.7 13.9-2.9 27.9-5 42.1-6.4 121.2-11.4 245.9-11.4 367.1 0 14.2 1.4 28.2 3.5 42.1 6.4 2.5.5 5.1.7 7.5.7 14.2 0 27.6-6.1 36.5-17.5l37.3-48.2c4.5-5.8 5.6-13.3 3-20.3-2.6-7-8.5-12.8-15.3-15.3-79.3-27.6-160.2-41.5-241-41.5zm-192 64c3.4 1.1 6.8 2.2 10.3 3.3 118.8 34.3 234.3 34.3 353.1 0 3.5-1.1 6.9-2.2 10.3-3.3-69.6 15-139.8 23.4-210 23.4s-140.4-8.4-210-23.4zM288 288c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80zm0 128c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zM288 192c-56.9 0-112 7.7-160 21.8v22.2c0 53.6 43.1 96.6 96.7 96.7 5.2.1 10.4 0 15.5-.3 65-3.3 124.7-27.1 175.7-65.7V213.8c-48-14.1-103.1-21.8-160-21.8z"/>
+            <path
+              d="M288 32c-80.8 0-161.7 13.9-241 41.5-6.8 2.5-12.7 8.3-15.3 15.3-2.6 7-1.5 14.5 3 20.3l37.3 48.2c8.9 11.4 22.3 17.5 36.5 17.5 2.5 0 5-.2 7.5-.7 13.9-2.9 27.9-5 42.1-6.4 121.2-11.4 245.9-11.4 367.1 0 14.2 1.4 28.2 3.5 42.1 6.4 2.5.5 5.1.7 7.5.7 14.2 0 27.6-6.1 36.5-17.5l37.3-48.2c4.5-5.8 5.6-13.3 3-20.3-2.6-7-8.5-12.8-15.3-15.3-79.3-27.6-160.2-41.5-241-41.5zm-192 64c3.4 1.1 6.8 2.2 10.3 3.3 118.8 34.3 234.3 34.3 353.1 0 3.5-1.1 6.9-2.2 10.3-3.3-69.6 15-139.8 23.4-210 23.4s-140.4-8.4-210-23.4zM288 288c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80zm0 128c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zM288 192c-56.9 0-112 7.7-160 21.8v22.2c0 53.6 43.1 96.6 96.7 96.7 5.2.1 10.4 0 15.5-.3 65-3.3 124.7-27.1 175.7-65.7V213.8c-48-14.1-103.1-21.8-160-21.8z" />
           </svg>
         </span>
       </div>
 
       <div class="input-group">
-        <input 
-          [type]="mostrarConfirmarContrasena ? 'text' : 'password'" 
-          placeholder="Confirmar contraseña" 
-          [(ngModel)]="confirmarContrasena" 
-          name="confirmarContrasena"
-          required
-        >
+        <input [type]="mostrarConfirmarContrasena ? 'text' : 'password'" placeholder="Confirmar contraseña"
+          [(ngModel)]="confirmarContrasena" name="confirmarContrasena" required>
         <span class="password-toggle" (click)="toggleMostrarConfirmarContrasena()">
           <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
-              <path d="M288 32c-80.8 0-161.7 13.9-241 41.5-6.8 2.5-12.7 8.3-15.3 15.3-2.6 7-1.5 14.5 3 20.3l37.3 48.2c8.9 11.4 22.3 17.5 36.5 17.5 2.5 0 5-.2 7.5-.7 13.9-2.9 27.9-5 42.1-6.4 121.2-11.4 245.9-11.4 367.1 0 14.2 1.4 28.2 3.5 42.1 6.4 2.5.5 5.1.7 7.5.7 14.2 0 27.6-6.1 36.5-17.5l37.3-48.2c4.5-5.8 5.6-13.3 3-20.3-2.6-7-8.5-12.8-15.3-15.3-79.3-27.6-160.2-41.5-241-41.5zm-192 64c3.4 1.1 6.8 2.2 10.3 3.3 118.8 34.3 234.3 34.3 353.1 0 3.5-1.1 6.9-2.2 10.3-3.3-69.6 15-139.8 23.4-210 23.4s-140.4-8.4-210-23.4zM288 288c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80zm0 128c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zM288 192c-56.9 0-112 7.7-160 21.8v22.2c0 53.6 43.1 96.6 96.7 96.7 5.2.1 10.4 0 15.5-.3 65-3.3 124.7-27.1 175.7-65.7V213.8c-48-14.1-103.1-21.8-160-21.8z"/>
+            <path
+              d="M288 32c-80.8 0-161.7 13.9-241 41.5-6.8 2.5-12.7 8.3-15.3 15.3-2.6 7-1.5 14.5 3 20.3l37.3 48.2c8.9 11.4 22.3 17.5 36.5 17.5 2.5 0 5-.2 7.5-.7 13.9-2.9 27.9-5 42.1-6.4 121.2-11.4 245.9-11.4 367.1 0 14.2 1.4 28.2 3.5 42.1 6.4 2.5.5 5.1.7 7.5.7 14.2 0 27.6-6.1 36.5-17.5l37.3-48.2c4.5-5.8 5.6-13.3 3-20.3-2.6-7-8.5-12.8-15.3-15.3-79.3-27.6-160.2-41.5-241-41.5zm-192 64c3.4 1.1 6.8 2.2 10.3 3.3 118.8 34.3 234.3 34.3 353.1 0 3.5-1.1 6.9-2.2 10.3-3.3-69.6 15-139.8 23.4-210 23.4s-140.4-8.4-210-23.4zM288 288c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80zm0 128c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zM288 192c-56.9 0-112 7.7-160 21.8v22.2c0 53.6 43.1 96.6 96.7 96.7 5.2.1 10.4 0 15.5-.3 65-3.3 124.7-27.1 175.7-65.7V213.8c-48-14.1-103.1-21.8-160-21.8z" />
           </svg>
         </span>
 
       </div>
-      
+
       <div class="input-terms">
-        <input 
-          type="checkbox" 
-          id="terminos" 
-          [(ngModel)]="aceptaTerminos" 
-          name="aceptaTerminos"
-        >
-<a (click)="abrirModalTerminos()" class="create-link link-terminos"> 
-            Acepto Términos y condiciones
-        </a>      </div>
+        <input type="checkbox" id="terminos" [(ngModel)]="aceptaTerminos" name="aceptaTerminos">
+        <a (click)="abrirModalTerminos()" class="create-link link-terminos">
+          Acepto Términos y condiciones
+        </a>
+      </div>
 
       <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
       <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
@@ -96,55 +66,12 @@
       <div class="modal-header">
         <h3 class="modal-title">📝 Términos y condiciones</h3>
         <button class="close-button" (click)="cerrarModalTerminos()">
-            &times;
+          &times;
         </button>
       </div>
 
       <div class="modal-body">
-        <p class="modal-intro">Las compras son finales y no reembolsables salvo a casos excepcionales según muestre la política. Los precios pueden variar según el tipo de ubicación.</p>
-        
-        <ol class="terminos-list">
-          <li>
-            <p><strong>1. Aceptación de Términos</strong></p>
-            <p>Al registrarse y usar este servicio, acepta estar legalmente vinculado por estos términos y condiciones. Si no está de acuerdo, no uses el servicio.</p>
-          </li>
-          <li>
-            <p><strong>2. Verificación de Edad</strong></p>
-            <p>Declaras tener al menos 18 años de edad. El acceso a menores de edad está estrictamente prohibido y puede resultar en acciones legales.</p>
-          </li>
-          <li>
-            <p><strong>3. Contenido para Adultos</strong></p>
-            <p>Este servicio proporciona contenido explícito para adultos. Entiendes y aceptas la naturaleza del contenido disponible y no te ofende.</p>
-          </li>
-          <li>
-            <p><strong>4. Responsabilidad del Usuario</strong></p>
-            <p>Eres responsable de mantener la confidencialidad de tu cuenta y contraseña. Cualquier actividad bajo tu cuenta es tu responsabilidad.</p>
-          </li>
-          <li>
-            <p><strong>5. Compra y Pagos</strong></p>
-            <p>Las compras son finales y no reembolsables salvo a casos excepcionales según muestre la política. Los precios pueden variar según el tipo de ubicación geográfica.</p>
-          </li>
-          <li>
-            <p><strong>6. Propiedad Intelectual</strong></p>
-            <p>Todo el contenido es propiedad del servicio y sus creadores. Está prohibida la descarga, distribución o reproducción no autorizada del contenido.</p>
-          </li>
-          <li>
-            <p><strong>7. Privacidad y Datos</strong></p>
-            <p>Receptamos y procesamos datos según nuestra Política de Privacidad. Al usar el servicio, consientes este procesamiento.</p>
-          </li>
-          <li>
-            <p><strong>8. Conducta Prohibida</strong></p>
-            <p>Está prohibido: compartir cuentas, usar métodos automatizados para acceder al servicio, intentar hackear o comprometer la seguridad, acosar a otros usuarios o creadores.</p>
-          </li>
-          <li>
-            <p><strong>9. Suspensión y Terminación</strong></p>
-            <p>Podemos suspender o terminar tu cuenta en cualquier momento por violación de estos términos sin reembolso.</p>
-          </li>
-          <li>
-            <p><strong>10. Limitación de Responsabilidad</strong></p>
-            <p>El servicio se proporciona "tal cual". No garantizamos disponibilidad continua ni somos responsables de daños indirectos o consecuentes</p>
-          </li>
-        </ol>
+        <div [innerHTML]="termsContent" class="markdown-content"></div>
       </div>
 
       <div class="modal-footer">
