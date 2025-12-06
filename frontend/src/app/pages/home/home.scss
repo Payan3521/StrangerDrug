@@ -112,6 +112,24 @@
     box-shadow: 0 0 8px var(--color-primary);
 }
 
+.btn-cerrar-sesion {
+    background-color: transparent;
+    color: var(--color-text-light);
+    padding: 8px 18px;
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    margin-left: 10px;
+}
+
+.btn-cerrar-sesion:hover {
+    background-color: rgba(247, 0, 255, 0.1);
+    color: white;
+    box-shadow: 0 0 8px var(--color-primary);
+}
+
 /* ============================================== */
 /* CONTENIDO Y SECCIONES */
 /* ============================================== */

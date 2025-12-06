@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { marked } from 'marked';
+import { RegisterService, User } from '../../services/register/register-service';
 
 @Component({
   selector: 'app-register',
@@ -25,9 +26,11 @@ export class Register {
   errorMessage: string = '';
   successMessage: string = '';
 
-  constructor(private router: Router, private http: HttpClient) {
-    // Aquí podrías inyectar el AuthService si fueras a enviar los datos
-  }
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private registerService: RegisterService
+  ) { }
 
   toggleMostrarContrasena() {
     this.mostrarContrasena = !this.mostrarContrasena;
@@ -72,21 +75,30 @@ export class Register {
       return;
     }
 
-    // Aquí iría la lógica para llamar al AuthService.registro()
-    console.log('Datos listos para enviar al backend:', {
-      nombre: this.nombre,
-      correo: this.correo,
-      fechaNacimiento: this.fechaNacimiento,
-      contrasena: this.contrasena,
-      aceptaTerminos: this.aceptaTerminos
+    const newUser: User = {
+      name: this.nombre,
+      email: this.correo,
+      password: this.contrasena,
+      birthdate: this.fechaNacimiento,
+      role: 'CLIENTE'
+    };
+
+    this.registerService.register(newUser).subscribe({
+      next: (user) => {
+        this.successMessage = 'Registro exitoso. ¡Ahora puedes iniciar sesión!';
+        // Redirigir al login después de un breve retraso
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Error en registro:', err);
+        if (err.error && err.error.message) {
+          this.errorMessage = err.error.message;
+        } else {
+          this.errorMessage = 'Ocurrió un error al registrarse. Inténtalo de nuevo.';
+        }
+      }
     });
-
-    // Simulación de éxito (reemplazar con la llamada a AuthService)
-    this.successMessage = 'Registro exitoso. ¡Ahora puedes iniciar sesión!';
-
-    // Redirigir al login después de un breve retraso
-    setTimeout(() => {
-      this.router.navigate(['/login']);
-    }, 2000);
   }
 }
