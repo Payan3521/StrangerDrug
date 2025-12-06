@@ -3,7 +3,7 @@
 /* ============================================== */
 :host {
     --color-dark: #1e112a;
-    --color-background-secondary: #2a193c; 
+    --color-background-secondary: #2a193c;
     --color-primary: #f700ff9b;
     --color-text-light: #e0e0e0;
     --color-text-placeholder: #ccc;
@@ -16,11 +16,12 @@
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .content-wrapper {
     /* Ajustamos max-width para 4 columnas cómodas */
-    max-width: 1400px; 
+    max-width: 1400px;
     margin: 30px auto;
     padding: 0 20px;
     flex-grow: 1;
@@ -91,6 +92,7 @@
 .search-bar-container {
     max-width: 400px;
     margin-bottom: 40px;
+    margin-right: 3%;
 }
 
 .search-input {
@@ -118,9 +120,10 @@
     /* Cuadrícula adaptable de 4 columnas en pantallas grandes */
     display: grid;
     /* Forzamos 4 columnas para que queden 4x2 = 8 por página */
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
-    margin-bottom: 40px; /* Reducimos el margen, el paginador lo añade */
+    margin-bottom: 40px;
+    /* Reducimos el margen, el paginador lo añade */
 }
 
 
@@ -134,19 +137,19 @@
     transition: border-color 0.3s, transform 0.3s;
     cursor: pointer;
     text-align: center;
-    width: 300px;
-    
+    margin-right: 10%;
 }
 
 .model-card:hover {
     border-color: var(--color-primary);
-    transform: translateY(-5px); 
+    transform: translateY(-5px);
 }
 
 .model-placeholder {
     width: 100%;
     /* Mantenemos una proporción similar al video */
-    padding-top: 100%; /* Hacemos que sea un cuadrado */
+    padding-top: 100%;
+    /* Hacemos que sea un cuadrado */
     position: relative;
     background-color: #3b2a4c;
     border-radius: 8px;
@@ -154,8 +157,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
+
 .model-placeholder p {
     position: absolute;
     top: 50%;
@@ -217,6 +221,7 @@
     align-items: center;
     gap: 10px;
     margin: 40px 0 60px 0;
+    margin-right: 4%;
 }
 
 .page-button {
@@ -345,4 +350,109 @@
 
 .social-svg:hover {
     filter: brightness(0) invert(1) drop-shadow(0 0 6px var(--color-primary));
+}
+
+/* ================================================================== */
+/* RESPONSIVE STYLES */
+/* ================================================================== */
+
+@media (max-width: 768px) {
+
+    /* --- Header --- */
+    .header-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px 20px;
+    }
+
+    .logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .nav-links a {
+        margin-right: 0;
+        display: block;
+        padding: 5px 0;
+    }
+
+    /* --- Content --- */
+    .section-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .search-bar-container {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+
+    /* --- Footer --- */
+    .footer-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .right-contact {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .content-wrapper {
+        padding: 0 10px;
+        /* Reduce container padding */
+    }
+
+    .grid-model-cards {
+        /* Volver a 2 columnas */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        /* Reducir espacio entre tarjetas */
+        justify-items: center;
+    }
+
+    .model-card {
+        width: 100%;
+        max-width: none;
+        /* Permitir que ocupe el espacio de la celda */
+        padding: 10px;
+        /* Reducir padding interno */
+    }
+
+    .model-name {
+        font-size: 0.95rem;
+        /* Reducir tamaño de fuente */
+    }
+
+    .video-count {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* --- Header --- */
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    /* --- Content --- */
+    .section-title {
+        font-size: 1.8rem;
+    }
 }

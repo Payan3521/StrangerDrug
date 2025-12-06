@@ -3,11 +3,12 @@
 /* ============================================== */
 :host {
     --color-dark: #1e112a;
-    --color-background-secondary: #2a193c; 
+    --color-background-secondary: #2a193c;
     --color-primary: #f700ff9b;
     --color-text-light: #e0e0e0;
     --color-text-placeholder: #ccc;
-    --card-width: 320px; /* Ancho fijo para cada tarjeta en el carrusel */
+    --card-width: 320px;
+    /* Ancho fijo para cada tarjeta en el carrusel */
 }
 
 .gallery-layout {
@@ -17,6 +18,7 @@
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .content-wrapper {
@@ -125,25 +127,29 @@
 }
 
 .carousel-wrapper {
-    display: flex; 
-    overflow-x: scroll; 
-    padding: 10px 0; /* Un poco de padding vertical */
-    gap: 20px; 
-    
+    display: flex;
+    overflow-x: scroll;
+    padding: 10px 0;
+    /* Un poco de padding vertical */
+    gap: 20px;
+
     /* CAMBIO CLAVE: Ocultar la barra de scroll */
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .carousel-wrapper::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
+    /* Chrome, Safari, Opera */
 }
 
 /* --- Tarjeta de Video (COMPLETO) --- */
 .video-card {
-    flex: 0 0 var(--card-width); 
+    flex: 0 0 var(--card-width);
     max-width: var(--card-width);
-    height: 320px; /* Altura definida para que no colapsen */
-    
+    height: 320px;
+    /* Altura definida para que no colapsen */
+
     background-color: var(--color-background-secondary);
     border-radius: 10px;
     padding: 15px;
@@ -219,11 +225,13 @@
 }
 
 .scroll-arrow.right {
-    right: -15px; /* Ajuste para que la flecha quede parcialmente fuera del contenedor */
+    right: -15px;
+    /* Ajuste para que la flecha quede parcialmente fuera del contenedor */
 }
 
 .scroll-arrow.left {
-    left: -15px; /* Ajuste para la flecha izquierda */
+    left: -15px;
+    /* Ajuste para la flecha izquierda */
 }
 
 .scroll-arrow svg {
@@ -323,4 +331,122 @@
 
 .social-svg:hover {
     filter: brightness(0) invert(1) drop-shadow(0 0 6px var(--color-primary));
+}
+
+/* ================================================================== */
+/* RESPONSIVE STYLES */
+/* ================================================================== */
+
+@media (max-width: 768px) {
+
+    /* --- Header --- */
+    .header-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px 20px;
+    }
+
+    .logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .nav-links a {
+        margin-right: 0;
+        display: block;
+        padding: 5px 0;
+    }
+
+    /* --- Content --- */
+    .section-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .search-bar-container {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+
+    /* --- Footer --- */
+    .footer-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .right-contact {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .content-wrapper {
+        padding: 0 10px;
+    }
+
+    /* Hide scroll arrows on mobile as we are switching to vertical grid */
+    .scroll-arrow {
+        display: none !important;
+    }
+
+    .carousel-wrapper {
+        display: grid;
+        /* Switch to grid */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns */
+        gap: 15px;
+        padding: 0;
+        overflow-x: visible;
+        /* No horizontal scroll needed */
+        width: 100%;
+        justify-items: center;
+    }
+
+    .video-card {
+        flex: none;
+        /* Disable flex behavior */
+        width: 100%;
+        max-width: none;
+        /* Allow full width of grid cell */
+        height: auto;
+        min-height: 0;
+        /* Reset min-height */
+        margin-bottom: 10px;
+    }
+
+    .video-placeholder {
+        height: 120px;
+        /* Adjust placeholder height */
+    }
+
+    .card-title {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* --- Header --- */
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    /* --- Content --- */
+    .section-title {
+        font-size: 1.8rem;
+    }
 }

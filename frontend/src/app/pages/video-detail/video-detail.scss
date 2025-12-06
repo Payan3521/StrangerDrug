@@ -1,9 +1,10 @@
 /* Heredamos variables y estilos base del Home */
 :host {
     --color-dark: #1e112a;
-    --color-background-secondary: #2a193c; 
-    --color-primary: #f700ff9b; 
-    --color-accent: #f700ff; /* Color para el botón de compra */
+    --color-background-secondary: #2a193c;
+    --color-primary: #f700ff9b;
+    --color-accent: #f700ff;
+    /* Color para el botón de compra */
     --color-text-light: #e0e0e0;
 }
 
@@ -14,6 +15,7 @@
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 /* ============================================== */
@@ -81,7 +83,7 @@
     position: relative;
     width: 100%;
     /* Relación de aspecto 16:9 */
-    padding-top: 56.25%; 
+    padding-top: 56.25%;
     background-color: #000;
     margin-bottom: 30px;
 }
@@ -106,7 +108,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none; /* Permite interactuar con el reproductor subyacente */
+    pointer-events: none;
+    /* Permite interactuar con el reproductor subyacente */
     z-index: 10;
 }
 
@@ -119,12 +122,14 @@
 /* Grid de Información y Compra */
 .info-and-purchase-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* Más espacio para la info que para el precio */
+    grid-template-columns: 2fr 1fr;
+    /* Más espacio para la info que para el precio */
     gap: 30px;
 }
 
 /* Estilos de los paneles */
-.info-panel, .purchase-panel {
+.info-panel,
+.purchase-panel {
     background-color: var(--color-background-secondary);
     padding: 25px;
     border-radius: 10px;
@@ -158,7 +163,8 @@
     color: var(--color-text-light);
     border: 1px solid var(--color-primary);
     border-radius: 5px;
-    appearance: none; /* Quitar el estilo nativo */
+    appearance: none;
+    /* Quitar el estilo nativo */
     cursor: pointer;
 }
 
@@ -283,16 +289,17 @@
 }
 
 .social-svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  margin: 0 10px;
-  cursor: pointer;
-  filter: brightness(0) invert(1); /* blanco */
-  transition: filter 0.3s;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0 10px;
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+    /* blanco */
+    transition: filter 0.3s;
 }
 
 .social-svg:hover {
-  filter: brightness(0) invert(1) drop-shadow(0 0 6px var(--color-primary));
+    filter: brightness(0) invert(1) drop-shadow(0 0 6px var(--color-primary));
 }
 
 .model-link {
@@ -304,4 +311,68 @@
 .model-link:hover {
     color: #000;
     text-decoration: underline;
+}
+
+/* ================================================================== */
+/* RESPONSIVE STYLES */
+/* ================================================================== */
+
+@media (max-width: 900px) {
+    .info-and-purchase-grid {
+        grid-template-columns: 1fr;
+        /* Stack panels vertically */
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* --- Header --- */
+    .nav-wrapper {
+        flex-direction: row;
+        /* Keep row but adjust if needed */
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    /* --- Content --- */
+    .video-title {
+        font-size: 1.5rem;
+    }
+
+    .content-wrapper {
+        padding: 0 15px;
+    }
+
+    /* --- Footer --- */
+    .footer-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .right-contact {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-wrapper {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-volver {
+        width: 100%;
+        text-align: center;
+    }
 }

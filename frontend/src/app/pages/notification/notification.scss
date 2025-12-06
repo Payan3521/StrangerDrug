@@ -3,15 +3,18 @@
 /* ============================================== */
 :host {
     --color-dark: #1e112a;
-    --color-background-secondary: #2a193c; 
+    --color-background-secondary: #2a193c;
     --color-primary: #f700ff9b;
     --color-text-light: #e0e0e0;
     --color-text-placeholder: #ccc;
 
     /* Colores específicos de notificaciones */
-    --color-success-purchase: #00ff88; /* Verde/Cian para Compra/Éxito */
-    --color-warning-sale: #ffc400;     /* Amarillo para Venta/Atención */
-    --color-system: #6a5acd;          /* Púrpura más suave para sistema */
+    --color-success-purchase: #00ff88;
+    /* Verde/Cian para Compra/Éxito */
+    --color-warning-sale: #ffc400;
+    /* Amarillo para Venta/Atención */
+    --color-system: #6a5acd;
+    /* Púrpura más suave para sistema */
 }
 
 .gallery-layout {
@@ -24,7 +27,8 @@
 }
 
 .content-wrapper {
-    max-width: 1000px; /* Reducimos el ancho para la lista */
+    max-width: 1000px;
+    /* Reducimos el ancho para la lista */
     margin: 30px auto;
     padding: 0 20px;
     flex-grow: 1;
@@ -75,7 +79,7 @@
     color: var(--color-text-light);
     border-bottom: 2px solid var(--color-primary);
     padding-bottom: 10px;
-    margin-bottom:0;
+    margin-bottom: 0;
     flex-grow: 1;
 }
 
@@ -90,7 +94,8 @@
 .title-and-actions {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end; /* Alinea el título con el botón Limpiar Todo */
+    align-items: flex-end;
+    /* Alinea el título con el botón Limpiar Todo */
     margin-bottom: 30px;
     padding-bottom: 10px;
 }
@@ -98,15 +103,18 @@
 /* Botón Limpiar Todo */
 .btn-clear-all {
     background-color: transparent;
-    border: 1px solid #ff5757; /* Borde rojo suave */
-    color: #ff5757; /* Texto rojo */
+    border: 1px solid #ff5757;
+    /* Borde rojo suave */
+    color: #ff5757;
+    /* Texto rojo */
     padding: 8px 15px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: bold;
     transition: all 0.3s;
-    white-space: nowrap; /* Evita que el texto se rompa */
+    white-space: nowrap;
+    /* Evita que el texto se rompa */
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -138,7 +146,8 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     border-left: 5px solid transparent;
     transition: all 0.3s;
-    position: relative; /* Necesario para posicionar el botón de eliminar */
+    position: relative;
+    /* Necesario para posicionar el botón de eliminar */
 }
 
 /* Botón de Eliminar Individual */
@@ -157,13 +166,15 @@
 }
 
 .btn-delete:hover {
-    color: #ff5757; /* Rojo para indicar eliminación */
+    color: #ff5757;
+    /* Rojo para indicar eliminación */
     transform: rotate(15deg) scale(1.1);
 }
 
 /* Ajuste de padding en el item para que no interfiera con el botón X */
 .notification-item {
-    padding-right: 45px; /* Asegura espacio para el botón de eliminar */
+    padding-right: 45px;
+    /* Asegura espacio para el botón de eliminar */
 }
 
 .notification-item {
@@ -199,9 +210,11 @@
 .icon-purchase {
     background-color: var(--color-success-purchase);
 }
+
 .icon-sale {
     background-color: var(--color-warning-sale);
 }
+
 .icon-system {
     background-color: var(--color-system);
 }
@@ -236,7 +249,7 @@
 
 .notif-details span:first-child {
     /* Resaltar detalles de la transacción */
-    color: var(--color-primary); 
+    color: var(--color-primary);
     font-weight: bold;
 }
 
@@ -344,4 +357,135 @@
 
 .social-svg:hover {
     filter: brightness(0) invert(1) drop-shadow(0 0 6px var(--color-primary));
+}
+
+/* ================================================================== */
+/* RESPONSIVE STYLES */
+/* ================================================================== */
+
+@media (max-width: 768px) {
+
+    /* --- Header --- */
+    .header-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px 20px;
+    }
+
+    .logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .nav-links a {
+        margin-right: 0;
+        display: block;
+        padding: 5px 0;
+    }
+
+    /* --- Content --- */
+    .title-and-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .section-title {
+        border-bottom: none;
+        /* Remove border on mobile if it looks weird stacked */
+        margin-bottom: 10px;
+    }
+
+    .btn-clear-all {
+        margin: 0;
+    }
+
+    /* --- Notification Item --- */
+    .notification-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        padding-right: 15px;
+        /* Reset padding */
+        position: relative;
+    }
+
+    .notif-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+        align-self: center;
+        /* Center icon on mobile */
+    }
+
+    .notif-content {
+        width: 100%;
+        text-align: center;
+        /* Center text on mobile */
+    }
+
+    .notif-details {
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+    }
+
+    .btn-delete {
+        top: 10px;
+        right: 10px;
+        font-size: 1.2rem;
+        background-color: rgba(0, 0, 0, 0.2);
+        /* Add background to make it visible */
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* --- Footer --- */
+    .footer-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .right-contact {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* --- Header --- */
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    /* --- Content --- */
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .notif-title {
+        font-size: 1rem;
+    }
+
+    .notif-message {
+        font-size: 0.9rem;
+    }
 }
