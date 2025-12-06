@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/models").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/models/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/models/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/models/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/models/{id}").permitAll()
 
                         // notifications
                         .requestMatchers(HttpMethod.POST, "/api/notifications").authenticated()
@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/posts/section-name").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/title").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/recent").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/posts/{id}").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/posts/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/posts/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/posts").hasRole("ADMIN")
