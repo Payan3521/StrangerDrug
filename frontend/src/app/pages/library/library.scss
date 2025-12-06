@@ -3,11 +3,12 @@
 /* ============================================== */
 :host {
     --color-dark: #1e112a;
-    --color-background-secondary: #2a193c; 
+    --color-background-secondary: #2a193c;
     --color-primary: #f700ff9b;
     --color-text-light: #e0e0e0;
     --color-text-placeholder: #ccc;
-    --color-purchased: #00ff88; /* Color verde/cian para indicar compra */
+    --color-purchased: #00ff88;
+    /* Color verde/cian para indicar compra */
 }
 
 .library-layout {
@@ -17,10 +18,11 @@
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .content-wrapper {
-    max-width: 1400px; 
+    max-width: 1400px;
     margin: 30px auto;
     padding: 0 20px;
     flex-grow: 1;
@@ -92,7 +94,7 @@
 /* ============================================== */
 .grid-video-cards {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     margin-bottom: 60px;
 }
@@ -121,22 +123,24 @@
     overflow: visible;
     padding: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--color-purchased); /* Borde que indica contenido adquirido */
+    border: 1px solid var(--color-purchased);
+    /* Borde que indica contenido adquirido */
     transition: transform 0.3s;
     cursor: pointer;
     text-align: center;
     position: relative;
-    width: 300px;
 }
 
 .btn-delete-video {
     position: absolute;
-    top: 0px; 
-    right: 0px; 
-    background-color: #ff5757; /* Color de peligro/eliminación */
+    top: 0px;
+    right: 0px;
+    background-color: #ff5757;
+    /* Color de peligro/eliminación */
     color: white;
     border: none;
-    border-radius: 0 8px 0 8px; /* Redondeo solo en la esquina superior derecha */
+    border-radius: 0 8px 0 8px;
+    /* Redondeo solo en la esquina superior derecha */
     padding: 8px 12px;
     font-size: 1rem;
     cursor: pointer;
@@ -152,13 +156,14 @@
 }
 
 .video-card:hover {
-    transform: translateY(-5px); 
+    transform: translateY(-5px);
     box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
 }
 
 .video-placeholder {
     width: 100%;
-    padding-top: 56.25%; /* Relación de aspecto 16:9 */
+    padding-top: 56.25%;
+    /* Relación de aspecto 16:9 */
     position: relative;
     background-color: #3b2a4c;
     border-radius: 8px;
@@ -167,6 +172,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .play-icon {
     position: absolute;
     top: 50%;
@@ -238,6 +244,7 @@
     flex-wrap: wrap;
     gap: 20px;
 }
+
 /* ============================================== */
 /* FOOTER / PIE DE PÁGINA (COMPLETO) */
 /* ============================================== */
@@ -372,4 +379,91 @@
 
 .prev-next-button {
     padding: 10px 20px;
+}
+
+/* ================================================================== */
+/* RESPONSIVE STYLES */
+/* ================================================================== */
+
+@media (max-width: 768px) {
+
+    /* --- Header --- */
+    .header-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px 20px;
+    }
+
+    .logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .nav-links a {
+        margin-right: 0;
+        display: block;
+        padding: 5px 0;
+    }
+
+    /* --- Content --- */
+    .section-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .search-bar-container {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+
+    /* --- Footer --- */
+    .footer-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .right-contact {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-video-cards {
+        grid-template-columns: 1fr;
+        /* Ensure cards are centered and take appropriate width */
+        justify-items: center;
+    }
+
+    .video-card {
+        width: 100%;
+        max-width: 350px;
+        /* Limit max width on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* --- Header --- */
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    /* --- Content --- */
+    .section-title {
+        font-size: 1.8rem;
+    }
 }
