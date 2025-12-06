@@ -51,7 +51,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             (path.equals("/api/posts/recent") && method.equals("GET")) ||
             (path.equals("/api/register") && method.equals("POST")) ||
             (path.equals("/api/sections") && method.equals("GET")) ||
-            (path.equals("/health") && method.equals("GET"))
+            (path.equals("/health") && method.equals("GET")) ||
+            (path.equals("/api/posts/{id}") && method.equals("GET")) ||
+            (path.equals("/api/models/{id}") && method.equals("GET"))
         ) 
             {
             filterChain.doFilter(request, response);
