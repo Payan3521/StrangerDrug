@@ -3,7 +3,7 @@
   <header class="gallery-header">
     <div class="header-wrapper">
       <h1 class="logo">Stranger<span class="logo-accent">Drug</span></h1>
-      
+
       <div class="nav-links">
         <a [routerLink]="['/notification']">Notificaciones</a>
         <a [routerLink]="['/library']">Biblioteca</a>
@@ -15,64 +15,50 @@
 
   <main class="content-wrapper">
     <h2 class="section-title">Videos</h2>
-    
+
     <div class="search-bar-container">
       <input type="text" placeholder="Buscar videos..." class="search-input">
     </div>
-    
+
     <section class="category-section" *ngFor="let category of categorias; let i = index">
       <h3 class="category-title">{{ category.nombre }}</h3>
 
       <div class="carousel-container">
-        
+
         <div class="scroll-arrow left" (click)="scrollCarousel(i, -1)">
-          <svg viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.5 96.5c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>
+          <svg viewBox="0 0 256 512">
+            <path fill="currentColor"
+              d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.5 96.5c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z" />
+          </svg>
         </div>
 
-        <div class="carousel-wrapper" #carouselWrapper> 
-          
+        <div class="carousel-wrapper" #carouselWrapper>
+
           <div class="video-card" *ngFor="let video of category.videos" (click)="navegarAVideo(video.id)">
-            
+
             <div class="video-placeholder">
-              <svg class="play-icon" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z"/></svg>
+              <svg class="play-icon" viewBox="0 0 512 512">
+                <path fill="currentColor"
+                  d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z" />
+              </svg>
             </div>
             <p class="card-title">{{ video.titulo }}</p>
             <p class="card-price">${{ video.precio.toFixed(2) }}</p>
             <p class="card-duration">Duración: {{ video.duracion }}</p>
           </div>
         </div>
-        
+
         <div class="scroll-arrow right" (click)="scrollCarousel(i, 1)">
-          <svg viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L154.6 256 31.7 133.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6 .1 34z"/></svg>
+          <svg viewBox="0 0 256 512">
+            <path fill="currentColor"
+              d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L154.6 256 31.7 133.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6 .1 34z" />
+          </svg>
         </div>
       </div>
     </section>
 
   </main>
-  
-    <footer class="footer">
-    <div class="footer-content-wrapper">
-      <div class="footer-section">
-        <p class="footer-link">Privacy Policy</p>
-        <p class="footer-link">Coockies Policy</p>
-      </div>
 
-      <div class="footer-section center-logo">
-        <h3 class="footer-logo">Stranger<span class="logo-accent">Drug</span></h3>
-        <div class="social-icons">
-                    <img src="onlyfans.svg" class="social-svg">
-                    <img src="pornhub.svg" class="social-svg">
-          <fa-icon [icon]="['fab', 'facebook']"></fa-icon>
-                    <fa-icon [icon]="['fab', 'x-twitter']"></fa-icon>
-          <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
-        </div>
-      </div>
-
-      <div class="footer-section right-contact">
-        <p class="contact-title">Desarrollo-X</p>
-        <p class="contact-email">Desarrollox@gmail.com</p>
-      </div>
-    </div>
-    </footer>
+  <app-footer></app-footer>
 
 </div>
