@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { marked } from 'marked';
 import { PostService, PostResponseDto } from '../../services/posts/post-service';
 import { ModelService, Model } from '../../services/models/model-service';
+import { AuthService } from '../../services/auth/authService';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +16,8 @@ export class Home implements OnInit {
   videosRecientes: any[] = []; // Will hold PostResponseDto objects with formatted duration
   modelosDestacados: Model[] = [];
 
-  isLoggedIn: boolean = false; // Simular que el usuario está logeado
-  isAdmin: boolean = false;    // Simular rol de administrador
+  isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
 
   showAgeModal: boolean = false;
   accessDenied: boolean = false;
@@ -25,7 +26,8 @@ export class Home implements OnInit {
     private router: Router,
     private http: HttpClient,
     private postService: PostService,
-    private modelService: ModelService
+    private modelService: ModelService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -35,8 +37,14 @@ export class Home implements OnInit {
       this.showAgeModal = true;
     }
 
+    this.checkLoginStatus();
     this.loadRecentPosts();
     this.loadSalientsModels();
+  }
+
+  checkLoginStatus() {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.isAdmin = this.authService.isAdmin();
   }
 
   loadRecentPosts() {
@@ -86,10 +94,8 @@ export class Home implements OnInit {
   }
 
   cerrarSesion() {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    this.isLoggedIn = false;
-    this.isAdmin = false;
+    this.authService.logout();
+    this.checkLoginStatus();
     this.router.navigate(['/home']);
   }
 

@@ -39,4 +39,44 @@ export class AuthService {
       }
     });
   }
+
+  logout(): void {
+    const refreshToken = localStorage.getItem('refreshToken');
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (refreshToken && accessToken) {
+      // Call backend logout endpoint with refreshToken in body and accessToken in header
+      this.http.post(`${this.apiUrl}/auth/logout`, { refreshToken }, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      }).subscribe({
+        next: () => console.log('Logout successful on backend'),
+        error: (err) => console.error('Logout error on backend', err)
+      });
+    }
+
+    // Clear local storage
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('accessToken');
+  }
+
+  isAdmin(): boolean {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        return user.role === 'ADMIN';
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  }
 }
