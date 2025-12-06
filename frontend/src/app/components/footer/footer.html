@@ -1,0 +1,46 @@
+<footer class="footer">
+    <div class="footer-content-wrapper">
+        <div class="footer-section">
+            <p class="footer-link" (click)="openLegalModal('privacy')">Privacy Policy</p>
+            <p class="footer-link" (click)="openLegalModal('terms')">Terms and Conditions</p>
+            <p class="footer-link" (click)="openLegalModal('support')">Support</p>
+            <p class="footer-link" (click)="openLegalModal('about')">About Us</p>
+        </div>
+
+        <div class="footer-section center-logo">
+            <h3 class="footer-logo">Stranger<span class="logo-accent">Drug</span></h3>
+            <div class="social-icons">
+                <img src="onlyfans.svg" class="social-svg">
+                <img src="pornhub.svg" class="social-svg">
+                <fa-icon [icon]="['fab', 'facebook']"></fa-icon>
+                <fa-icon [icon]="['fab', 'x-twitter']"></fa-icon>
+                <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
+            </div>
+        </div>
+
+        <div class="footer-section right-contact">
+            <p class="contact-title">Desarrollo-X</p>
+            <p class="contact-email"><a href="mailto:desarrolloxcol@gmail.com">desarrolloxcol@gmail.com</a></p>
+        </div>
+    </div>
+</footer>
+
+<!-- Modal Legal -->
+<div class="modal-overlay" *ngIf="showModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">{{ modalTitle }}</h3>
+            <button class="close-button" (click)="closeModal()">
+                &times;
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div [innerHTML]="modalContent" class="markdown-content"></div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-cerrar" (click)="closeModal()">Cerrar</button>
+        </div>
+    </div>
+</div>

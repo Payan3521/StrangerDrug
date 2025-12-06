@@ -16,6 +16,7 @@ import { VideoGallery } from './pages/video-gallery/video-gallery';
 import { ModelGallery } from './pages/model-gallery/model-gallery';
 import { Notifications } from './pages/notification/notification';
 import { Library } from './pages/library/library';
+import { FooterComponent } from './components/footer/footer';
 
 @NgModule({
   declarations: [
@@ -35,14 +36,15 @@ import { Library } from './pages/library/library';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FooterComponent
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
   ],
   bootstrap: [App]
 })
-export class AppModule { 
+export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(faFacebook, faXTwitter, faInstagram)
   }

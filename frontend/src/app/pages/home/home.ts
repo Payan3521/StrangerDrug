@@ -26,9 +26,7 @@ export class Home implements OnInit {
   isLoggedIn: boolean = false; // Simular que el usuario está logeado
   isAdmin: boolean = false;    // Simular rol de administrador
 
-  showModal: boolean = false;
-  modalTitle: string = '';
-  modalContent: string = '';
+  // showModal, modalTitle, modalContent removed
 
   showAgeModal: boolean = false;
   accessDenied: boolean = false;
@@ -70,44 +68,5 @@ export class Home implements OnInit {
     // Aquí iría el routerLink para navegar a la lista completa
   }
 
-  openLegalModal(type: string) {
-    let fileName = '';
-    switch (type) {
-      case 'privacy':
-        this.modalTitle = 'Privacy Policy';
-        fileName = 'privacy_policy.md';
-        break;
-      case 'terms':
-        this.modalTitle = 'Terms and Conditions';
-        fileName = 'terms_and_conditions.md';
-        break;
-      case 'support':
-        this.modalTitle = 'Support';
-        fileName = 'support.md';
-        break;
-      case 'about':
-        this.modalTitle = 'About Us';
-        fileName = 'about_us.md';
-        break;
-    }
-
-    if (fileName) {
-      this.showModal = true;
-      this.http.get(`assets/${fileName}`, { responseType: 'text' })
-        .subscribe({
-          next: (data) => {
-            this.modalContent = marked.parse(data) as string;
-          },
-          error: (err) => {
-            console.error('Error loading markdown:', err);
-            this.modalContent = '<p>Error loading content.</p>';
-          }
-        });
-    }
-  }
-
-  closeModal() {
-    this.showModal = false;
-    this.modalContent = '';
-  }
+  // Modal logic moved to FooterComponent
 }
