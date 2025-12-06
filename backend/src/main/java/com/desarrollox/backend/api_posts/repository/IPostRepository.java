@@ -14,6 +14,6 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p WHERE LOWER(p.section.name) LIKE LOWER(CONCAT(:name, '%'))")
     List<Post> findBySectionName(@Param("name") String name);
 
-    @Query(value = "SELECT * FROM posts ORDER BY created_at DESC LIMIT 5", nativeQuery = true)
-    List<Post> find5PostRecents();
+    @Query(value = "SELECT * FROM posts ORDER BY created_at DESC LIMIT 3", nativeQuery = true)
+    List<Post> find3PostRecents();
 }

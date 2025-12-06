@@ -62,7 +62,7 @@ public class ModelsController {
     }
 
     @GetMapping("/name")
-    public ResponseEntity<List<Model>> findByName(@PathVariable String name){
+    public ResponseEntity<List<Model>> findByName(@RequestParam String name){
         List<Model> modelList = modelService.findByName(name);
         if (modelList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

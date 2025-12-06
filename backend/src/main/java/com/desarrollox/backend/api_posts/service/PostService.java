@@ -333,7 +333,7 @@ public class PostService implements IPostService {
     @Override
     public List<PostResponseDto> getPostByRecent() {
 
-        return postRepository.find5PostRecents().stream()
+        return postRepository.find3PostRecents().stream()
                 .map(this::mapToResponseDto)
                 .toList();
     }
