@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { marked } from 'marked';
+import { PostService, PostResponseDto } from '../../services/posts/post-service';
+import { ModelService, Model } from '../../services/models/model-service';
 
 @Component({
   selector: 'app-home',
@@ -10,28 +12,21 @@ import { marked } from 'marked';
   styleUrl: './home.scss',
 })
 export class Home implements OnInit {
-  videosRecientes = [
-    { id: 1, titulo: 'Título del video #1', precio: 9.99, duracion: '12:34' },
-    { id: 2, titulo: 'Título del video #2', precio: 9.99, duracion: '12:34' },
-    { id: 3, titulo: 'Título del video #3', precio: 9.99, duracion: '12:34' },
-  ];
-
-  modelosDestacados = [
-    { id: 1, nombre: 'Sofía Castro', videos: 5 },
-    { id: 2, nombre: 'Martha Sanchez', videos: 10 },
-    { id: 3, nombre: 'Luisa García', videos: 7 },
-    { id: 4, nombre: 'Juanita Robles', videos: 11 },
-  ];
+  videosRecientes: any[] = []; // Will hold PostResponseDto objects with formatted duration
+  modelosDestacados: Model[] = [];
 
   isLoggedIn: boolean = false; // Simular que el usuario está logeado
   isAdmin: boolean = false;    // Simular rol de administrador
 
-  // showModal, modalTitle, modalContent removed
-
   showAgeModal: boolean = false;
   accessDenied: boolean = false;
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private postService: PostService,
+    private modelService: ModelService
+  ) { }
 
   ngOnInit(): void {
     // Verificar si el usuario ya confirmó su edad
@@ -39,6 +34,41 @@ export class Home implements OnInit {
     if (!ageVerified) {
       this.showAgeModal = true;
     }
+
+    this.loadRecentPosts();
+    this.loadSalientsModels();
+  }
+
+  loadRecentPosts() {
+    this.postService.getRecentPosts().subscribe({
+      next: (posts) => {
+        this.videosRecientes = posts.map(post => ({
+          ...post,
+          precio: post.prices.find(p => p.codeCountry === 'CO')?.amount || 0, // Default to US price
+          duracionFormatted: this.formatDuration(post.duration)
+        }));
+      },
+      error: (err) => {
+        console.error('Error loading recent posts:', err);
+      }
+    });
+  }
+
+  loadSalientsModels() {
+    this.modelService.getSalientsModels().subscribe({
+      next: (models) => {
+        this.modelosDestacados = models;
+      },
+      error: (err) => {
+        console.error('Error loading salients models:', err);
+      }
+    });
+  }
+
+  formatDuration(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   }
 
   confirmAge() {
@@ -67,6 +97,4 @@ export class Home implements OnInit {
     console.log(`Navegando a la sección de todos los ${tipo}`);
     // Aquí iría el routerLink para navegar a la lista completa
   }
-
-  // Modal logic moved to FooterComponent
 }

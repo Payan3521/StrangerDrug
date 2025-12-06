@@ -26,13 +26,13 @@
 
         <div class="model-card" *ngFor="let modelo of modelosMostrados" (click)="navegarAperfil(modelo.id)">
 
-          <div class="model-placeholder">
-            <p>{{ modelo.nombre.charAt(0) }}</p>
+          <div class="model-placeholder" [style.background-image]="'url(' + modelo.profile.s3Url + ')'"
+            [style.background-size]="'cover'" [style.background-position]="'center'">
           </div>
 
           <div class="card-info">
-            <p class="video-count">{{ modelo.videoCount }} Videos</p>
-            <p class="model-name">{{ modelo.nombre }}</p>
+            <!-- <p class="video-count">{{ modelo.videoCount }} Videos</p> -->
+            <p class="model-name">{{ modelo.name }}</p>
           </div>
         </div>
 
