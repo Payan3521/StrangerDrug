@@ -344,6 +344,7 @@ public class PostService implements IPostService {
                 .title(post.getTitle())
                 .description(post.getDescription())
                 .duration(post.getDuration())
+                .createdAt(post.getCreatedAt())
                 .videoKey(post.getVideo().getS3Key())
                 .previewUrl(post.getVideoPreview().getS3Url())
                 .thumbnailUrl(post.getThumbnail().getS3Url())

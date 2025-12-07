@@ -84,7 +84,7 @@ public class ModelService implements IModelService {
 
     @Override
     public List<Model> findSalientsModels() {
-        return modelRepository.findRandom3Models();
+        return modelRepository.findRandom5Models();
     }
     
 }
