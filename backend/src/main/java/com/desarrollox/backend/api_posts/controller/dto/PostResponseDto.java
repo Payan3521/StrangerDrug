@@ -1,5 +1,6 @@
 package com.desarrollox.backend.api_posts.controller.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import com.desarrollox.backend.api_models.controller.dto.ModelDto;
 import lombok.Builder;
@@ -12,6 +13,7 @@ public class PostResponseDto {
     private String title;
     private String description;
     private String videoKey;
+    private LocalDateTime createdAt;
     private String previewUrl;
     private String thumbnailUrl;
     private SectionResponseDto section;

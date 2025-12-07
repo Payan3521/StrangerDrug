@@ -39,23 +39,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
 
         // Permitir acceso libre solo a endpoints específicos
-        if (   
-            (path.equals("/api/auth/login") && method.equals("POST")) ||
-            (path.equals("/api/models") && method.equals("GET")) ||
-            (path.equals("/api/models/name") && method.equals("GET")) ||
-            (path.equals("/api/models/salients-models") && method.equals("GET")) ||
-            (path.equals("/api/posts") && method.equals("GET")) ||
-            (path.equals("/api/posts/model-name") && method.equals("GET")) ||
-            (path.equals("/api/posts/section-name") && method.equals("GET")) ||
-            (path.equals("/api/posts/title") && method.equals("GET")) ||
-            (path.equals("/api/posts/recent") && method.equals("GET")) ||
-            (path.equals("/api/register") && method.equals("POST")) ||
-            (path.equals("/api/sections") && method.equals("GET")) ||
-            (path.equals("/health") && method.equals("GET")) ||
-            (path.equals("/api/posts/{id}") && method.equals("GET")) ||
-            (path.equals("/api/models/{id}") && method.equals("GET"))
-        ) 
-            {
+        if ((path.equals("/api/auth/login") && method.equals("POST")) ||
+                (path.equals("/api/models") && method.equals("GET")) ||
+                (path.equals("/api/models/name") && method.equals("GET")) ||
+                (path.equals("/api/models/salients-models") && method.equals("GET")) ||
+                (path.equals("/api/posts") && method.equals("GET")) ||
+                (path.equals("/api/posts/model-name") && method.equals("GET")) ||
+                (path.equals("/api/posts/section-name") && method.equals("GET")) ||
+                (path.equals("/api/posts/title") && method.equals("GET")) ||
+                (path.equals("/api/posts/recent") && method.equals("GET")) ||
+                (path.equals("/api/register") && method.equals("POST")) ||
+                (path.equals("/api/sections") && method.equals("GET")) ||
+                (path.equals("/health") && method.equals("GET")) ||
+                (path.matches("/api/posts/\\d+") && method.equals("GET")) ||
+                (path.matches("/api/models/\\d+") && method.equals("GET"))) {
             filterChain.doFilter(request, response);
             return;
         }
