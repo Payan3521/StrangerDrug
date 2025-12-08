@@ -104,7 +104,7 @@ export class ModelGallery implements OnInit {
     this.aplicarFiltroYPaginacion();
   }
 
-  navegarAperfil(modelId: number) {
-    this.router.navigate(['/model', modelId]);
+  navegarAperfil(modelName: string) {
+    this.router.navigate(['/model', modelName]);
   }
 }

@@ -33,4 +33,10 @@ export class ModelService {
   getAllModels(): Observable<Model[]> {
     return this.http.get<Model[]>(`${this.apiUrl}`);
   }
+
+  getModelByName(modelName: string): Observable<Model[]> {
+    return this.http.get<Model[]>(`${this.apiUrl}/name`, {
+      params: { name: modelName }
+    });
+  }
 }

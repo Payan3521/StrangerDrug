@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PurchaseService implements IPurchaseService{
+public class PurchaseService implements IPurchaseService {
     private final IPurchaseRepository purchaseRepository;
     private final IRegisterRepository registerRepository;
     private final IPaymentRepository paymentRepository;
@@ -41,29 +41,43 @@ public class PurchaseService implements IPurchaseService{
             throw new PaymentNotFoundException("El pago con id " + purchase.getPaymentId() + " no fue encontrado");
         }
 
-        Optional<Video> video = videoRepository.findById(purchase.getVideoId());
+        Optional<Video> video = videoRepository.findByS3Key(purchase.getVideoKey());
 
         if (video.isEmpty()) {
-            throw new VideoNotFoundException("El video con id " + purchase.getVideoId() + " no fue encontrado");
+            throw new VideoNotFoundException("El video con id " + purchase.getVideoKey() + " no fue encontrado");
         }
 
-        if(purchaseRepository.hasUserPurchasedVideo(user.get().getId(), video.get().getId()) > 0){
-            throw new PurchaseAlreadyRegisteredException("El usuario con id " + user.get().getId() + " ya ha comprado el video con id " + video.get().getId());
+        // Verificar si existe una compra ACTIVA del mismo video por el mismo usuario
+        int activePurchases = purchaseRepository.hasUserPurchasedVideo(user.get().getId(), video.get().getId());
+
+        if (activePurchases > 0) {
+            throw new PurchaseAlreadyRegisteredException("El usuario con id " + user.get().getId()
+                    + " ya tiene una compra activa del video con id " + video.get().getId());
         }
+
+        // Si hay compras inactivas del mismo video, las dejamos como están (no hacemos
+        // nada)
+        // Esto permite que el usuario pueda recomprar un video que había eliminado de
+        // su biblioteca
 
         if (purchaseRepository.countByPaymentId(payment.get().getId()) > 0) {
             throw new PaymentAlreadyUsedException(
-                "El pago con id " + payment.get().getId() + " ya está asociado a una compra."
-            );
+                    "El pago con id " + payment.get().getId() + " ya está asociado a una compra activa.");
         }
+
+        System.out.println("Creating purchase with amount: " + purchase.getAmount());
 
         Purchase purchaseEntity = Purchase.builder()
                 .user(user.get())
                 .payment(payment.get())
                 .video(video.get())
+                .amount(purchase.getAmount())
                 .build();
 
-        return purchaseRepository.save(purchaseEntity);
+        Purchase savedPurchase = purchaseRepository.save(purchaseEntity);
+        System.out.println("Saved purchase with amount: " + savedPurchase.getAmount());
+
+        return savedPurchase;
     }
 
     @Override
@@ -88,14 +102,14 @@ public class PurchaseService implements IPurchaseService{
     public Optional<Purchase> findById(Long id) {
         if (purchaseRepository.existsById(id)) {
             return Optional.of(purchaseRepository.findById(id).get());
-        }else{
-            throw new PurchaseNotFoundException("La compra con id: "+id+" no fue encontrada");
+        } else {
+            throw new PurchaseNotFoundException("La compra con id: " + id + " no fue encontrada");
         }
     }
 
     @Override
     public List<Purchase> findByBuyerUserId(Long buyerId) {
-        if(!registerRepository.existsById(buyerId)){
+        if (!registerRepository.existsById(buyerId)) {
             throw new UserNotFoundException("El usuario con id " + buyerId + " no fue encontrado");
         }
         return purchaseRepository.findByUser_IdAndStatusPurchaseClienteIsTrue(buyerId);

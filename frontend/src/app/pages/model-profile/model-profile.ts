@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModelService, Model } from '../../services/models/model-service';
+import { PostService, PostResponseDto } from '../../services/posts/post-service';
 
 @Component({
   selector: 'app-model-profile',
@@ -8,85 +10,152 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './model-profile.scss',
 })
 export class ModelProfile implements OnInit {
-  modelId: number = 0;
+  modelName: string = '';
+  modelData: Model | null = null;
 
   // --- Datos de la Modelo ---
-  nombreModelo: string = 'Sofía Castro';
-  videosCount: number = 18; // 18 videos en total (se actualiza al cargar)
+  nombreModelo: string = '';
+  biografia: string = '';
+  profilePhotoUrl: string = '';
+  videosCount: number = 0;
+  isLoading: boolean = true;
 
   // --- Lógica de Paginación ---
   videosPorPagina: number = 6;
   paginaActual: number = 1;
   totalPaginas: number[] = [];
 
-  // Array completo de todos los videos de la modelo (SIMULACIÓN)
-  todosLosVideos = [
-    { id: 10, titulo: 'Sesión Tropical', precio: 12.99, duracion: '15:20' },
-    { id: 11, titulo: 'Detrás de Escena', precio: 8.99, duracion: '08:45' },
-    { id: 12, titulo: 'Lencería Roja', precio: 9.99, duracion: '12:34' },
-    { id: 13, titulo: 'Gimnasio Caliente', precio: 15.99, duracion: '20:10' },
-    { id: 14, titulo: 'Baño de Espuma', precio: 7.99, duracion: '05:30' },
-    { id: 15, titulo: 'Solo para Fans', precio: 11.99, duracion: '10:00' },
-    { id: 16, titulo: 'Mañana en la Playa', precio: 10.50, duracion: '14:10' },
-    { id: 17, titulo: 'Cena Privada', precio: 19.99, duracion: '25:00' },
-    { id: 18, titulo: 'Fantasía Policial', precio: 14.00, duracion: '18:30' },
-    { id: 19, titulo: 'Ropa de Látex', precio: 9.00, duracion: '07:20' },
-    { id: 20, titulo: 'Amanecer en Bali', precio: 16.99, duracion: '22:05' },
-    { id: 21, titulo: 'Yoga Nocturno', precio: 11.00, duracion: '11:55' },
-    { id: 22, titulo: 'Fiesta de Espuma', precio: 13.50, duracion: '16:40' },
-    { id: 23, titulo: 'Noche de Club', precio: 8.50, duracion: '09:15' },
-    { id: 24, titulo: 'Paseo en Coche', precio: 7.00, duracion: '06:00' },
-  ];
+  // Array completo de todos los posts de la modelo
+  todosLosPosts: PostResponseDto[] = [];
 
-  // Array que se usará en el *ngFor (solo 6 videos)
-  videosMostrados: any[] = [];
+  // Array que se usará en el *ngFor (solo 6 posts)
+  postsMostrados: PostResponseDto[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private modelService: ModelService,
+    private postService: PostService
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.modelId = Number(params.get('id'));
-      this.cargarPerfilModelo(this.modelId);
-      this.videosCount = this.todosLosVideos.length; // Actualizar el conteo
-      this.calcularPaginacion(); // Calcular el número de botones
-      this.cambiarPagina(1); // Cargar la primera página
+      this.modelName = params.get('name') || '';
+      console.log('Model name from route:', this.modelName);
+
+      if (this.modelName) {
+        this.cargarPerfilModelo(this.modelName);
+      } else {
+        console.error('No model name provided in route');
+        this.isLoading = false;
+      }
     });
   }
 
-  cargarPerfilModelo(id: number) {
-    console.log(`Cargando perfil y videos de la modelo ID: ${id}`);
-    // Aquí iría la llamada al servicio para obtener todos los videos (this.todosLosVideos)
+  cargarPerfilModelo(modelName: string) {
+    console.log('Loading profile for model:', modelName);
+    this.isLoading = true;
+    let modelLoaded = false;
+    let postsLoaded = false;
+
+    const checkIfDone = () => {
+      if (modelLoaded && postsLoaded) {
+        this.isLoading = false;
+        console.log('All data loaded successfully');
+      }
+    };
+
+    // Fetch model details
+    console.log('Fetching model details from:', `/api/models/name?name=${modelName}`);
+    this.modelService.getModelByName(modelName).subscribe({
+      next: (models: Model[]) => {
+        console.log('Model response:', models);
+        if (models && models.length > 0) {
+          const model = models[0];
+          this.modelData = model;
+          this.nombreModelo = model.name;
+          this.biografia = model.biography;
+          this.profilePhotoUrl = model.profile?.s3Url || '';
+          console.log('Model data loaded:', model);
+        } else {
+          console.warn('No models found for name:', modelName);
+          this.nombreModelo = modelName;
+          this.biografia = 'Información no disponible';
+        }
+        modelLoaded = true;
+        checkIfDone();
+      },
+      error: (err) => {
+        console.error('Error loading model details:', err);
+        console.error('Error status:', err.status);
+        console.error('Error message:', err.message);
+        this.nombreModelo = modelName;
+        this.biografia = 'Información no disponible';
+        modelLoaded = true;
+        checkIfDone();
+      }
+    });
+
+    // Fetch posts by model name
+    console.log('Fetching posts from:', `/api/posts/model-name?modelName=${modelName}`);
+    this.postService.getPostsByModelName(modelName).subscribe({
+      next: (posts: PostResponseDto[]) => {
+        console.log('Posts response:', posts);
+        // Handle null response from backend (when no posts found)
+        this.todosLosPosts = posts || [];
+        this.videosCount = this.todosLosPosts.length;
+        this.calcularPaginacion();
+        this.cambiarPagina(1);
+        postsLoaded = true;
+        checkIfDone();
+      },
+      error: (err) => {
+        console.error('Error loading model posts:', err);
+        console.error('Error status:', err.status);
+        console.error('Error message:', err.message);
+        this.todosLosPosts = [];
+        this.videosCount = 0;
+        postsLoaded = true;
+        checkIfDone();
+      }
+    });
   }
 
   calcularPaginacion() {
-    // Calcula cuántas páginas hay en total
     const numPaginas = Math.ceil(this.videosCount / this.videosPorPagina);
-    // Crea un array [1, 2, 3, ...] para usar en el *ngFor
     this.totalPaginas = Array(numPaginas).fill(0).map((x, i) => i + 1);
   }
 
   cambiarPagina(nuevaPagina: number) {
     if (nuevaPagina < 1 || nuevaPagina > this.totalPaginas.length) {
-      return; // Prevenir errores
+      return;
     }
 
     this.paginaActual = nuevaPagina;
 
-    // Calcula los índices de inicio y fin para el slice
     const inicio = (this.paginaActual - 1) * this.videosPorPagina;
     const fin = inicio + this.videosPorPagina;
 
-    // Filtra el array de videos para mostrar solo los de la página actual
-    this.videosMostrados = this.todosLosVideos.slice(inicio, fin);
+    this.postsMostrados = this.todosLosPosts.slice(inicio, fin);
 
-    // Opcional: hacer scroll hacia arriba para ver los nuevos videos
     window.scrollTo({ top: 350, behavior: 'smooth' });
   }
 
-  navegarAVideo(videoId: number) {
-    this.router.navigate(['/video', videoId]);
+  navegarAVideo(postId: number) {
+    this.router.navigate(['/video', postId]);
+  }
+
+  formatDuration(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  }
+
+  getFirstPrice(post: PostResponseDto): string {
+    if (post.prices && post.prices.length > 0) {
+      const price = post.prices[0];
+      return `${price.currency} ${price.amount}`;
+    }
+    return 'N/A';
   }
 }

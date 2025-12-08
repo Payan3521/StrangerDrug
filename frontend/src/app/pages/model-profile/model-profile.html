@@ -9,49 +9,81 @@
 
   <main class="content-wrapper">
 
-    <section class="profile-banner">
-      <div class="banner-placeholder">
-      </div>
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <p class="loading-message">Cargando perfil...</p>
+    </div>
 
-      <div class="profile-info-overlay">
-        <p class="video-count">{{ videosCount }} Videos</p>
-        <h2 class="model-name">{{ nombreModelo }}</h2>
-      </div>
-    </section>
-
-    <h3 class="section-title">Videos de {{ nombreModelo }}</h3>
-
-    <section class="videos-grid-section">
-      <div class="grid-video-cards">
-        <div class="video-card" *ngFor="let video of videosMostrados" (click)="navegarAVideo(video.id)">
-          <div class="video-placeholder">
-            <svg class="play-icon" viewBox="0 0 512 512">
-              <path fill="currentColor"
-                d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z" />
-            </svg>
-          </div>
-          <p class="card-title">{{ video.titulo }}</p>
-          <p class="card-price">${{ video.precio.toFixed(2) }}</p>
-          <p class="card-duration">Duración: {{ video.duracion }}</p>
+    <div *ngIf="!isLoading">
+      <!-- Profile Banner with Photo -->
+      <section class="profile-banner">
+        <div class="banner-photo" *ngIf="profilePhotoUrl">
+          <img [src]="profilePhotoUrl" [alt]="nombreModelo" />
         </div>
+        <div class="banner-placeholder" *ngIf="!profilePhotoUrl">
+        </div>
+
+        <div class="profile-info-overlay">
+          <p class="video-count">{{ videosCount }} Videos</p>
+          <h2 class="model-name">{{ nombreModelo }}</h2>
+        </div>
+      </section>
+
+      <!-- Biography Section -->
+      <section class="biography-section" *ngIf="biografia">
+        <h3 class="section-subtitle">Biografía</h3>
+        <p class="biography-text">{{ biografia }}</p>
+      </section>
+
+      <h3 class="section-title">Videos de {{ nombreModelo }}</h3>
+
+      <!-- Videos Grid -->
+      <section class="videos-grid-section">
+        <div *ngIf="postsMostrados.length > 0" class="grid-video-cards">
+          <div class="video-card" *ngFor="let post of postsMostrados" (click)="navegarAVideo(post.id)">
+
+            <!-- Thumbnail -->
+            <div class="video-thumbnail">
+              <img [src]="post.thumbnailUrl" [alt]="post.title" *ngIf="post.thumbnailUrl" />
+              <div class="video-placeholder" *ngIf="!post.thumbnailUrl">
+                <svg class="play-icon" viewBox="0 0 512 512">
+                  <path fill="currentColor"
+                    d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="card-info">
+              <p class="card-title">{{ post.title }}</p>
+              <p class="card-price">{{ getFirstPrice(post) }}</p>
+              <p class="card-duration">Duración: {{ formatDuration(post.duration) }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="postsMostrados.length === 0 && !isLoading" class="empty-message">
+          <p>No hay videos disponibles para esta modelo.</p>
+        </div>
+      </section>
+
+      <!-- Pagination -->
+      <div class="pagination-container" *ngIf="totalPaginas.length > 1">
+        <button class="page-button prev-next-button" (click)="cambiarPagina(paginaActual - 1)"
+          [disabled]="paginaActual === 1">
+          &laquo; Anterior
+        </button>
+
+        <button *ngFor="let page of totalPaginas" class="page-button" [class.active]="page === paginaActual"
+          (click)="cambiarPagina(page)">
+          {{ page }}
+        </button>
+
+        <button class="page-button prev-next-button" (click)="cambiarPagina(paginaActual + 1)"
+          [disabled]="paginaActual === totalPaginas.length">
+          Siguiente &raquo;
+        </button>
       </div>
-    </section>
-
-    <div class="pagination-container">
-      <button class="page-button prev-next-button" (click)="cambiarPagina(paginaActual - 1)"
-        [disabled]="paginaActual === 1">
-        &laquo; Anterior
-      </button>
-
-      <button *ngFor="let page of totalPaginas" class="page-button" [class.active]="page === paginaActual"
-        (click)="cambiarPagina(page)">
-        {{ page }}
-      </button>
-
-      <button class="page-button prev-next-button" (click)="cambiarPagina(paginaActual + 1)"
-        [disabled]="paginaActual === totalPaginas.length">
-        Siguiente &raquo;
-      </button>
     </div>
 
   </main>

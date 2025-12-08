@@ -13,5 +13,5 @@ public interface IVideoService {
     Optional<Video> delete(Long id);
     Optional<Video> updateVideo(Long id, MultipartFile file);
     Optional<Video> updatePreview(Long id, MultipartFile file);
-    Optional<Video> getPlayableUrl(Long videoId, String email);
+    Optional<Video> getPlayableUrl(String videoKey, String email);
 }

@@ -1,13 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PurchaseService, PurchaseResponseDto } from '../../services/purchases/purchase-service';
+import { PostService, PostResponseDto } from '../../services/posts/post-service';
+import { AuthService } from '../../services/auth/authService';
+import { forkJoin } from 'rxjs';
 
 interface PurchasedVideo {
-  id: number;
+  purchaseId: number;
+  postId: number;
   title: string;
   model: string;
   duration: string;
   purchaseDate: Date;
   price: number;
+  thumbnailUrl: string;
+  videoKey: string;
 }
 
 @Component({
@@ -17,81 +24,118 @@ interface PurchasedVideo {
   styleUrl: './library.scss',
 })
 export class Library implements OnInit {
-  // Lista de videos que el cliente ha comprado (Simulación)
-  purchasedVideos: PurchasedVideo[] = [
-    { 
-      id: 10, 
-      title: 'Gatica Cachonda', 
-      model: 'Ana Ramirez', 
-      duration: '12:34 min', 
-      purchaseDate: new Date(2025, 10, 20), 
-      price: 9.99 
-    },
-    { 
-      id: 11, 
-      title: 'Blanquita Tierna', 
-      model: 'Sofía Castro', 
-      duration: '15:34 min', 
-      purchaseDate: new Date(2025, 10, 25), 
-      price: 15.99 
-    },
-    { 
-      id: 12, 
-      title: 'Sesión Tropical', 
-      model: 'Sofía Castro', 
-      duration: '08:45 min', 
-      purchaseDate: new Date(2025, 11, 1), 
-      price: 12.99 
-    },
-    { 
-      id: 13, 
-      title: 'Yoga Nocturno', 
-      model: 'Natalia Reyes', 
-      duration: '11:55 min', 
-      purchaseDate: new Date(2025, 11, 2), 
-      price: 11.00 
-    },
-  ];
-  
- videosMostrados: PurchasedVideo[] = []; // Videos de la página actual
+  purchasedVideos: PurchasedVideo[] = [];
+  videosMostrados: PurchasedVideo[] = [];
   searchTerm: string = '';
-  
+  isLoading: boolean = true;
+
   // --- Lógica de Paginación ---
   videosPorPagina: number = 4;
   paginaActual: number = 1;
-  totalPaginas: number[] = []; // Array para los botones [1, 2, 3...]
+  totalPaginas: number[] = [];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private purchaseService: PurchaseService,
+    private postService: PostService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    // Aplicar la lógica de filtro y paginación al inicio
-    this.aplicarFiltroYPaginacion();
+    this.loadUserPurchases();
   }
 
-  // Se encarga de filtrar la lista Y luego paginar el resultado
+  loadUserPurchases(): void {
+    const userId = this.authService.getUserId();
+
+    if (!userId) {
+      console.error('User not logged in');
+      this.isLoading = false;
+      return;
+    }
+
+    this.purchaseService.getPurchasesByUserId(userId).subscribe({
+      next: (purchases: PurchaseResponseDto[]) => {
+        if (purchases && purchases.length > 0) {
+          // Get all post IDs from purchases
+          const postRequests = purchases.map(purchase => {
+            // Extract postId from video.s3Key or use a mapping
+            // For now, we'll need to fetch all posts and match by videoKey
+            return this.postService.getAllPosts();
+          });
+
+          // Fetch all posts once
+          this.postService.getAllPosts().subscribe({
+            next: (posts: PostResponseDto[]) => {
+              this.purchasedVideos = purchases
+                .filter(purchase => purchase.statusPurchaseCliente) // Only show active purchases
+                .map(purchase => {
+                  // Find the corresponding post by matching videoKey
+                  const post = posts.find(p => p.videoKey === purchase.video.s3Key);
+
+                  return {
+                    purchaseId: purchase.id,
+                    postId: post?.id || 0,
+                    title: post?.title || 'Video sin título',
+                    model: post?.models && post.models.length > 0
+                      ? post.models.map(m => m.name).join(', ')
+                      : 'Modelo desconocido',
+                    duration: post?.duration ? this.formatDuration(post.duration) : '00:00',
+                    purchaseDate: new Date(purchase.createdAt),
+                    price: purchase.payment.amount,
+                    thumbnailUrl: post?.thumbnailUrl || '',
+                    videoKey: purchase.video.s3Key
+                  };
+                });
+
+              this.isLoading = false;
+              this.aplicarFiltroYPaginacion();
+            },
+            error: (err) => {
+              console.error('Error loading posts:', err);
+              this.isLoading = false;
+            }
+          });
+        } else {
+          this.isLoading = false;
+          this.aplicarFiltroYPaginacion();
+        }
+      },
+      error: (err) => {
+        console.error('Error loading purchases:', err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  formatDuration(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')} min`;
+  }
+
   aplicarFiltroYPaginacion() {
     let videosFiltrados = this.purchasedVideos;
 
     // 1. Filtrado
     if (this.searchTerm) {
-        const term = this.searchTerm.toLowerCase();
-        videosFiltrados = this.purchasedVideos.filter(video => 
-            video.title.toLowerCase().includes(term) ||
-            video.model.toLowerCase().includes(term)
-        );
+      const term = this.searchTerm.toLowerCase();
+      videosFiltrados = this.purchasedVideos.filter(video =>
+        video.title.toLowerCase().includes(term) ||
+        video.model.toLowerCase().includes(term)
+      );
     }
-    
+
     // 2. Cálculo de Paginación
     this.calcularPaginacion(videosFiltrados.length);
 
     // Si la página actual es inválida después del filtro, ajustamos
     if (this.paginaActual > this.totalPaginas.length && this.totalPaginas.length > 0) {
-        this.paginaActual = 1;
+      this.paginaActual = 1;
     } else if (this.totalPaginas.length === 0) {
-        this.videosMostrados = [];
-        return;
+      this.videosMostrados = [];
+      return;
     }
-
 
     // 3. Paginación
     const inicio = (this.paginaActual - 1) * this.videosPorPagina;
@@ -99,7 +143,7 @@ export class Library implements OnInit {
 
     this.videosMostrados = videosFiltrados.slice(inicio, fin);
   }
-  
+
   calcularPaginacion(totalItems: number) {
     const numPaginas = Math.ceil(totalItems / this.videosPorPagina);
     this.totalPaginas = Array(numPaginas).fill(0).map((x, i) => i + 1);
@@ -112,41 +156,40 @@ export class Library implements OnInit {
 
     this.paginaActual = nuevaPagina;
     this.aplicarFiltroYPaginacion();
-    
+
     // Opcional: hacer scroll hacia el inicio de la cuadrícula
     window.scrollTo({ top: 350, behavior: 'smooth' });
   }
 
-  // Función vinculada al input de búsqueda
   onSearchChange(event: any) {
     this.searchTerm = event.target.value;
-    // Siempre que se busca, volvemos a la página 1 y aplicamos filtro y paginación
     this.paginaActual = 1;
     this.aplicarFiltroYPaginacion();
   }
 
-  // Función de navegación para ver el video (reutiliza la ruta de detalle de video)
-  verVideo(videoId: number) {
-    this.router.navigate(['/video', videoId]); 
+  verVideo(postId: number) {
+    if (postId) {
+      this.router.navigate(['/video', postId]);
+    }
   }
 
-  removeVideoFromLibrary(videoId: number, videoTitle: string, event: Event): void {
-    // Detiene la propagación para evitar que se ejecute (click)="verVideo(video.id)"
+  removeVideoFromLibrary(purchaseId: number, videoTitle: string, event: Event): void {
     event.stopPropagation();
 
     const confirmation = confirm(`¿Estás seguro de que deseas eliminar "${videoTitle}" de tu biblioteca? Si lo eliminas, deberás comprarlo de nuevo para acceder al video.`);
 
     if (confirmation) {
-        // Lógica de eliminación (Simulación en Frontend)
-        console.log(`Eliminando video ID: ${videoId}, Título: ${videoTitle}`);
-        
-        // 1. Actualiza la lista principal de videos comprados
-        this.purchasedVideos = this.purchasedVideos.filter(v => v.id !== videoId);
-
-        // 2. Vuelve a aplicar filtros y paginación para refrescar la vista
-        this.aplicarFiltroYPaginacion();
-
-        // Aquí iría la llamada a un servicio para notificar al backend la eliminación de la licencia.
+      this.purchaseService.softDeletePurchase(purchaseId).subscribe({
+        next: () => {
+          // Remove from local array
+          this.purchasedVideos = this.purchasedVideos.filter(v => v.purchaseId !== purchaseId);
+          this.aplicarFiltroYPaginacion();
+        },
+        error: (err) => {
+          console.error('Error deleting purchase:', err);
+          alert('Error al eliminar la compra. Por favor, intenta de nuevo.');
+        }
+      });
     }
   }
 }

@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'register', component: Register },
   { path: 'home', component: Home },
   { path: 'video/:id', component: VideoDetail },
-  { path: 'model/:id', component: ModelProfile },
+  { path: 'model/:name', component: ModelProfile },
   { path: 'video-gallery', component: VideoGallery },
   { path: 'model-gallery', component: ModelGallery },
   { path: 'notification', component: Notifications },

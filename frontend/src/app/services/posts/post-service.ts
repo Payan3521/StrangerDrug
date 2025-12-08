@@ -27,6 +27,7 @@ export interface PostResponseDto {
   title: string;
   description: string;
   videoKey: string;
+  createdAt: string;
   previewUrl: string;
   thumbnailUrl: string;
   section: SectionResponseDto;
@@ -49,5 +50,15 @@ export class PostService {
 
   getAllPosts(): Observable<PostResponseDto[]> {
     return this.http.get<PostResponseDto[]>(`${this.apiUrl}`);
+  }
+
+  getPostById(id: number): Observable<PostResponseDto> {
+    return this.http.get<PostResponseDto>(`${this.apiUrl}/${id}`);
+  }
+
+  getPostsByModelName(modelName: string): Observable<PostResponseDto[]> {
+    return this.http.get<PostResponseDto[]>(`${this.apiUrl}/model-name`, {
+      params: { modelName }
+    });
   }
 }

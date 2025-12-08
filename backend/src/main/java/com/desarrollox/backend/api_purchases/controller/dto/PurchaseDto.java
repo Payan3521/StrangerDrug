@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class PurchaseDto {
     private Long buyerUserId;
-    private Long videoId;
+    private String videoKey;
     private Long paymentId;
+    private double amount;
 }

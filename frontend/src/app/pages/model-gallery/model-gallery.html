@@ -24,7 +24,7 @@
     <section class="model-grid-section">
       <div *ngIf="modelosMostrados.length > 0; else noResults" class="grid-model-cards">
 
-        <div class="model-card" *ngFor="let modelo of modelosMostrados" (click)="navegarAperfil(modelo.id)">
+        <div class="model-card" *ngFor="let modelo of modelosMostrados" (click)="navegarAperfil(modelo.name)">
 
           <div class="model-placeholder" [style.background-image]="'url(' + modelo.profile.s3Url + ')'"
             [style.background-size]="'cover'" [style.background-position]="'center'">

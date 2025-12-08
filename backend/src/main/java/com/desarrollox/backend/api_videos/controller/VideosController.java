@@ -54,9 +54,9 @@ public class VideosController {
         return new ResponseEntity<>(videos, HttpStatus.OK);
     }
 
-    @GetMapping("/get-playable-url")
+    @PostMapping("/get-playable-url")
     public ResponseEntity<Video> getPlayableUrl(@Valid @RequestBody PlayableUrlRequest request){
-        Optional<Video> video = videoService.getPlayableUrl(request.getVideoId(), request.getEmail());
+        Optional<Video> video = videoService.getPlayableUrl(request.getVideoKey(), request.getEmail());
         return new ResponseEntity<>(video.get(), HttpStatus.OK);
     }
 

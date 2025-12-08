@@ -13,51 +13,50 @@
     </div>
   </header>
 
-  <main class="content-wrapper">
-    <h2 class="section-title">Centro de Notificaciones</h2>
-    <button *ngIf="notificationsList.length > 0" class="btn-clear-all" (click)="clearAllNotifications()">
-      <span class="icon-trash">🗑️</span> Limpiar Todo
-    </button>
-    <div class="notification-list-container">
+  <div class="notifications-container">
+    <h2 class="page-title">Notificaciones</h2>
 
-      <div *ngIf="notificationsList.length === 0" class="empty-state">
-        <p>No tienes notificaciones por el momento.</p>
+    <!-- Login Warning -->
+    <div *ngIf="!isLoggedIn" class="login-warning">
+      <p>Para ver tus notificaciones debes iniciar sesión primero.</p>
+      <button class="btn-login" [routerLink]="['/login']">Iniciar Sesión</button>
+    </div>
+
+    <!-- Notifications List -->
+    <div *ngIf="isLoggedIn">
+      <div class="notifications-header" *ngIf="notificationsList && notificationsList.length > 0">
+        <span class="notif-count">{{ notificationsList.length }} Nuevas</span>
+        <button class="btn-clear-all" (click)="clearAllNotifications()">Limpiar todo</button>
       </div>
 
-      <div class="notification-item" *ngFor="let notif of notificationsList">
-        <div class="notif-icon" [ngClass]="{
-                    'icon-purchase': notif.type === 'purchase',
-                    'icon-sale': notif.type === 'sale',
-                    'icon-system': notif.type === 'system'
-                }">
-          <span *ngIf="notif.type === 'purchase'">🛒</span>
-          <span *ngIf="notif.type === 'sale'">💰</span>
-          <span *ngIf="notif.type === 'system'">⚙️</span>
-        </div>
+      <div class="empty-state" *ngIf="!notificationsList || notificationsList.length === 0">
+        <div class="empty-icon">📭</div>
+        <p>No tienes notificaciones nuevas</p>
+      </div>
 
-        <div class="notif-content">
-          <p class="notif-title">{{ notif.title }}</p>
-          <p class="notif-message">{{ notif.message }}</p>
-
-          <div class="notif-details">
-            <span *ngIf="userRole === 'client' && notif.type === 'purchase'">
-              Video: **{{ notif.videoTitle }}** | Precio: **${{ notif.price!.toFixed(2) }}**
-            </span>
-
-            <span *ngIf="userRole === 'admin' && notif.type === 'sale'">
-              Cliente: **{{ notif.clientName }}** | Video: **{{ notif.videoTitle }}** | Ganancia: **${{
-              notif.price!.toFixed(2) }}**
-            </span>
-
-            <span class="notif-date">{{ formatDate(notif.date) }}</span>
+      <div class="notifications-list">
+        <div class="notification-card" *ngFor="let notif of notificationsList">
+          <div class="notif-icon-wrapper">
+            <!-- Icon logic can be simplified or based on message content if type is missing -->
+            <div class="notif-icon system">🔔</div>
           </div>
+
+          <div class="notif-content">
+            <h3 class="notif-title">Notificación</h3>
+            <p class="notif-message">{{ notif.message }}</p>
+
+            <!-- Optional details if available in message or extended properties -->
+
+            <p class="notif-date">{{ formatDate(notif.createdAt) }}</p>
+          </div>
+
+          <button class="btn-delete" (click)="deleteNotification(notif.id)" title="Eliminar">
+            ✕
+          </button>
         </div>
-        <button class="btn-delete" (click)="deleteNotification(notif.id)">
-          &times;
-        </button>
       </div>
     </div>
-  </main>
+  </div>
 
   <app-footer></app-footer>
 

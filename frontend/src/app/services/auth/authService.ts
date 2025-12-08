@@ -79,4 +79,29 @@ export class AuthService {
     }
     return false;
   }
+  getUserId(): number | null {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        return user.id;
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  getUserEmail(): string | null {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        return user.email;
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  }
 }

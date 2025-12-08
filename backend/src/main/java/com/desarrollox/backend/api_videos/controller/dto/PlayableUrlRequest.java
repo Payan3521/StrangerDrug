@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class PlayableUrlRequest {
-    private Long videoId;
+    private String videoKey;
     private String email;
 }
