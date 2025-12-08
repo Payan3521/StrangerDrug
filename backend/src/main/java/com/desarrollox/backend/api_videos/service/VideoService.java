@@ -115,8 +115,8 @@ public class VideoService implements IVideoService {
     }
 
     @Override
-    public Optional<Video> getPlayableUrl(Long videoId, String email) {
-        Video video = videoRepository.findById(videoId).orElseThrow(() -> new VideoNotFoundException("Video not found"));
+    public Optional<Video> getPlayableUrl(String videoKey, String email) {
+        Video video = videoRepository.findByS3Key(videoKey).orElseThrow(() -> new VideoNotFoundException("Video not found"));
         String role = registerRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found")).getRole().toString();
         if(video.getType().equals(Video.VideoType.PREVIEW)){
             return Optional.of(video);
@@ -132,7 +132,7 @@ public class VideoService implements IVideoService {
             );
         }
 
-        if(verifyPurchase(email, videoId)){
+        if(verifyPurchase(email, video.getId())){
             return Optional.of(Video.builder()
                 .s3Bucket(video.getS3Bucket())
                 .s3Key(video.getS3Key())
@@ -141,7 +141,7 @@ public class VideoService implements IVideoService {
                 .build()
             );
         }
-        return Optional.empty();
+        throw new VideoNotFoundException("No tienes permiso para ver este video");
     }
 
     private boolean verifyPurchase(String email, Long videoId){

@@ -88,12 +88,23 @@
 }
 
 .admin-link {
-    background-color: var(--color-primary);
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-weight: bold;
+    background-color: #ff9800;
+    /* Orange for admin */
     color: white !important;
-    text-align: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 15px;
+    box-shadow: 0 2px 5px rgba(255, 152, 0, 0.3);
+
+    &:hover {
+        background-color: #f57c00;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(255, 152, 0, 0.5);
+    }
 }
 
 .btn-iniciar-sesion {
@@ -114,20 +125,17 @@
 
 .btn-cerrar-sesion {
     background-color: transparent;
-    color: var(--color-text-light);
-    padding: 8px 18px;
     border: 1px solid var(--color-primary);
-    border-radius: 8px;
+    color: var(--color-primary);
+    padding: 8px 16px;
+    border-radius: 20px;
     cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
-    margin-left: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .btn-cerrar-sesion:hover {
     background-color: rgba(247, 0, 255, 0.1);
-    color: white;
-    box-shadow: 0 0 8px var(--color-primary);
 }
 
 /* ============================================== */

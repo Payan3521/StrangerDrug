@@ -12,13 +12,14 @@
       <h2 class="video-title">{{ tituloVideo }}</h2>
 
       <div class="player-container">
-        <video [src]="videoSourceUrl" controls class="video-player" (ended)="manejarFinPreview()" [autoplay]="true">
+        <video [src]="videoSourceUrl" controls controlsList="nodownload" oncontextmenu="return false;"
+          class="video-player" (ended)="manejarFinPreview()" [autoplay]="true">
           Tu navegador no soporta el tag de video.
         </video>
+      </div>
 
-        <div class="lock-overlay" *ngIf="isPreview && !isPurchased">
-          <span class="lock-icon">🔒</span>
-        </div>
+      <div class="full-video-action" *ngIf="isPreview && !isPurchased">
+        <button class="btn-ver-completo" (click)="playFullVideo()">Ver completo</button>
       </div>
 
     </div>
@@ -52,9 +53,12 @@
           <option *ngFor="let pais of paises" [value]="pais">{{ pais }}</option>
         </select>
 
-        <div class="price-display">
+        <div class="price-display" *ngIf="precioActual">
           <p class="price-currency">{{ precioActual.moneda }}</p>
           <p class="price-amount">{{ precioActual.precio | number: '1.2-2' }}</p>
+        </div>
+        <div class="price-display" *ngIf="!precioActual">
+          <p class="price-unavailable">Precio no disponible</p>
         </div>
 
         <p class="access-note">Compra única - Acceso ilimitado</p>

@@ -16,7 +16,8 @@ public interface IPurchaseRepository extends JpaRepository<Purchase, Long> {
 
     List<Purchase> findByStatusPurchaseAdminIsTrue();
 
-    @Query(value = "SELECT COUNT(*) FROM purchases WHERE payment_id = :paymentId", nativeQuery = true)
+    // Cuenta cuántas compras ACTIVAS (para cliente) están asociadas a un payment
+    @Query(value = "SELECT COUNT(*) FROM purchases WHERE payment_id = :paymentId AND status_purchase_cliente = TRUE", nativeQuery = true)
     int countByPaymentId(@Param("paymentId") Long paymentId);
 
     @Modifying
@@ -34,9 +35,9 @@ public interface IPurchaseRepository extends JpaRepository<Purchase, Long> {
     @Query(value = "UPDATE purchases SET status_purchase_admin = false", nativeQuery = true)
     int softDeleteAll();
 
-
-    //consulta con query native que busca si el usuario ha comprado el video
-    @Query(value = "SELECT COUNT(*) FROM purchases WHERE user_id = :userId AND video_id = :videoId", nativeQuery = true)
+    // consulta con query native que busca si el usuario ha comprado el video Y está
+    // activa para el cliente
+    @Query(value = "SELECT COUNT(*) FROM purchases WHERE user_id = :userId AND video_id = :videoId AND status_purchase_cliente = TRUE", nativeQuery = true)
     int hasUserPurchasedVideo(@Param("userId") Long userId, @Param("videoId") Long videoId);
-    
+
 }

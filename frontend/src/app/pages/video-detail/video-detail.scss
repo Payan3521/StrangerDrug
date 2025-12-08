@@ -114,9 +114,34 @@
 }
 
 .lock-icon {
-    font-size: 4rem;
+    font-size: 3rem;
     color: var(--color-primary);
     text-shadow: 0 0 10px var(--color-primary);
+}
+
+.full-video-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.btn-ver-completo {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(247, 0, 255, 0.3);
+}
+
+.btn-ver-completo:hover {
+    background-color: #a042ff;
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(247, 0, 255, 0.5);
 }
 
 /* Grid de Información y Compra */

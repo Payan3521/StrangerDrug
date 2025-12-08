@@ -18,36 +18,56 @@
 
     <div class="search-bar-container">
       <input type="text" placeholder="Buscar videos por título o modelo..." class="search-input"
-        [(ngModel)]="searchTerm">
+        [(ngModel)]="searchTerm" (input)="onSearchChange($event)">
     </div>
 
     <section class="videos-grid-section">
-      <div *ngIf="videosMostrados.length > 0; else emptyLibrary" class="grid-video-cards">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-container">
+        <p class="loading-message">Cargando tu biblioteca...</p>
+      </div>
 
-        <div class="video-card" *ngFor="let video of videosMostrados" (click)="verVideo(video.id)">
+      <!-- Videos Grid -->
+      <div *ngIf="!isLoading && videosMostrados.length > 0" class="grid-video-cards">
 
-          <button class="btn-delete-video" (click)="removeVideoFromLibrary(video.id, video.title, $event)">
+        <div class="video-card" *ngFor="let video of videosMostrados" (click)="verVideo(video.postId)">
+
+          <button class="btn-delete-video" (click)="removeVideoFromLibrary(video.purchaseId, video.title, $event)">
             🗑️
           </button>
-          <div class="video-placeholder">
-            <svg class="play-icon" viewBox="0 0 512 512">
-              <path fill="currentColor"
-                d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z" />
-            </svg>
+
+          <!-- Video Thumbnail -->
+          <div class="video-thumbnail">
+            <img [src]="video.thumbnailUrl" [alt]="video.title" *ngIf="video.thumbnailUrl" />
+            <div class="video-placeholder" *ngIf="!video.thumbnailUrl">
+              <svg class="play-icon" viewBox="0 0 512 512">
+                <path fill="currentColor"
+                  d="M256 0c141.4 0 256 114.6 256 256S397.4 512 256 512 0 397.4 0 256 114.6 0 256 0zM192 376V136c0-13.3 10.7-24 24-24s24 10.7 24 24v240c0 13.3-10.7 24-24 24s-24-10.7-24-24zm144-88l80 48c6.9 4.1 15.5 4.1 22.4 0s11.5-12.7 11.5-20.7V176c0-8-4.6-16.6-11.5-20.7s-15.5-4.1-22.4 0l-80 48c-6.9 4.1-11.5 12.7-11.5 20.7v96c0 8 4.6 16.6 11.5 20.7z" />
+              </svg>
+            </div>
           </div>
+
           <div class="card-info">
             <p class="card-title">{{ video.title }}</p>
             <p class="card-model">Modelo: {{ video.model }}</p>
             <p class="card-duration">{{ video.duration }}</p>
+            <p class="card-purchase-date">Comprado: {{ video.purchaseDate | date:'dd/MM/yyyy' }}</p>
+            <p class="card-price">Precio: ${{ video.price | number:'1.2-2' }}</p>
             <span class="card-status">Comprado</span>
           </div>
         </div>
 
       </div>
 
-      <ng-template #emptyLibrary>
+      <!-- Empty State -->
+      <div *ngIf="!isLoading && videosMostrados.length === 0 && purchasedVideos.length === 0">
         <p class="empty-message">Aún no has comprado ningún video. ¡Explora la galería!</p>
-      </ng-template>
+      </div>
+
+      <!-- No Results State -->
+      <div *ngIf="!isLoading && videosMostrados.length === 0 && purchasedVideos.length > 0">
+        <p class="empty-message">No se encontraron videos con ese criterio de búsqueda.</p>
+      </div>
 
     </section>
 

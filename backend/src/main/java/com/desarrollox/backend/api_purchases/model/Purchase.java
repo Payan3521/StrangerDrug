@@ -51,6 +51,9 @@ public class Purchase {
     @Column(name = "status_purchase_cliente", nullable = false)
     private boolean statusPurchaseCliente;
 
+    @Column(name = "amount", nullable = false)
+    private double amount;
+
     @PrePersist
     private void prePersist() {
         this.createdAt = LocalDateTime.now();
