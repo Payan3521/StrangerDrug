@@ -9,6 +9,7 @@ import { VideoGallery } from './pages/video-gallery/video-gallery';
 import { ModelGallery } from './pages/model-gallery/model-gallery';
 import { Notifications } from './pages/notification/notification';
 import { Library } from './pages/library/library';
+import { AdminPanel } from './pages/admin-panel/admin-panel';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'model-gallery', component: ModelGallery },
   { path: 'notification', component: Notifications },
   { path: 'library', component: Library },
+  { path: 'admin-panel', component: AdminPanel },
   { path: '**', redirectTo: 'home' },
 ];
 

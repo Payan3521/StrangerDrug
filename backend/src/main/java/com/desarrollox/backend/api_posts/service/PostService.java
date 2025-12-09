@@ -81,11 +81,28 @@ public class PostService implements IPostService {
             }
         }
 
-        if (!sectionRepository.existsByName(postDto.getSectionName())) {
-            throw new SectionNotFoundException("La seccion con nombre " + postDto.getSectionName() + " no se encontro");
+        Section section;
+        if (postDto.getSectionName() == null || postDto.getSectionName().trim().isEmpty()) {
+            // Si no se especifica sección, buscar o crear la sección por defecto "Sin
+            // Sección"
+            String defaultSectionName = "Sin Sección";
+            if (!sectionRepository.existsByName(defaultSectionName)) {
+                Section defaultSection = Section.builder()
+                        .name(defaultSectionName)
+                        .description("Sección por defecto para publicaciones sin categoría")
+                        .build();
+                section = sectionRepository.save(defaultSection);
+            } else {
+                section = sectionRepository.findByName(defaultSectionName);
+            }
+        } else {
+            if (!sectionRepository.existsByName(postDto.getSectionName())) {
+                throw new SectionNotFoundException(
+                        "La seccion con nombre " + postDto.getSectionName() + " no se encontro");
+            }
+            section = sectionRepository.findByName(postDto.getSectionName());
         }
 
-        Section section = sectionRepository.findByName(postDto.getSectionName());
         Video video = videoService.uploadVideo(postDto.getVideo());
         Video preview = videoService.uploadPreview(postDto.getPreview());
         Photo thumbnail = photoService.uploadThumbnail(postDto.getThumbnail());
@@ -227,11 +244,25 @@ public class PostService implements IPostService {
         }
 
         // Validar sección
-        if (!sectionRepository.existsByName(postDto.getSectionName())) {
-            throw new SectionNotFoundException("La seccion con nombre " + postDto.getSectionName() + " no se encontro");
+        // Validar sección
+        Section section;
+        if (postDto.getSectionName() == null || postDto.getSectionName().trim().isEmpty()) {
+            String defaultSectionName = "Sin Sección";
+            if (!sectionRepository.existsByName(defaultSectionName)) {
+                Section defaultSection = Section.builder()
+                        .name(defaultSectionName)
+                        .description("Sección por defecto para publicaciones sin categoría")
+                        .build();
+                section = sectionRepository.save(defaultSection);
+            } else {
+                section = sectionRepository.findByName(defaultSectionName);
+            }
+        } else {
+            if (!sectionRepository.existsByName(postDto.getSectionName())) {
+                throw new SectionNotFoundException("La seccion con nombre " + postDto.getSectionName() + " no se encontro");
+            }
+            section = sectionRepository.findByName(postDto.getSectionName());
         }
-
-        Section section = sectionRepository.findByName(postDto.getSectionName());
 
         // Actualizar videos y thumbnail si se proporcionan nuevos archivos
         if (postDto.getVideo() != null && !postDto.getVideo().isEmpty()) {

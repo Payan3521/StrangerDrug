@@ -29,6 +29,8 @@ export class VideoGallery implements OnInit {
   scrollDistance: number = 980;
 
   categorias: VideoCategory[] = [];
+  allPosts: PostResponseDto[] = [];
+  searchTerm: string = '';
 
   constructor(
     private router: Router,
@@ -42,33 +44,54 @@ export class VideoGallery implements OnInit {
   cargarGaleria() {
     this.postService.getAllPosts().subscribe({
       next: (posts) => {
-        const grouped = new Map<string, Video[]>();
-
-        posts.forEach(post => {
-          const sectionName = post.section ? post.section.name : 'Otros';
-          const video: Video = {
-            id: post.id,
-            titulo: post.title,
-            precio: post.prices.find(p => p.codeCountry === 'CO')?.amount || 0,
-            duracion: this.formatDuration(post.duration),
-            thumbnailUrl: post.thumbnailUrl
-          };
-
-          if (!grouped.has(sectionName)) {
-            grouped.set(sectionName, []);
-          }
-          grouped.get(sectionName)?.push(video);
-        });
-
-        this.categorias = Array.from(grouped.entries()).map(([nombre, videos]) => ({
-          nombre,
-          videos
-        }));
+        this.allPosts = posts;
+        this.filterGallery();
       },
       error: (err) => {
         console.error('Error loading video gallery:', err);
       }
     });
+  }
+
+  onSearchChange(event: any) {
+    this.searchTerm = event.target.value;
+    this.filterGallery();
+  }
+
+  filterGallery() {
+    let filteredPosts = this.allPosts;
+
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      filteredPosts = this.allPosts.filter(post =>
+        post.title.toLowerCase().includes(term) ||
+        (post.section && post.section.name.toLowerCase().includes(term)) ||
+        post.models.some(m => m.name.toLowerCase().includes(term))
+      );
+    }
+
+    const grouped = new Map<string, Video[]>();
+
+    filteredPosts.forEach(post => {
+      const sectionName = post.section ? post.section.name : 'Otros';
+      const video: Video = {
+        id: post.id,
+        titulo: post.title,
+        precio: post.prices.find(p => p.codeCountry === 'CO')?.amount || 0,
+        duracion: this.formatDuration(post.duration),
+        thumbnailUrl: post.thumbnailUrl
+      };
+
+      if (!grouped.has(sectionName)) {
+        grouped.set(sectionName, []);
+      }
+      grouped.get(sectionName)?.push(video);
+    });
+
+    this.categorias = Array.from(grouped.entries()).map(([nombre, videos]) => ({
+      nombre,
+      videos
+    }));
   }
 
   formatDuration(seconds: number): string {
