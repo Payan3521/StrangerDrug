@@ -5,9 +5,9 @@
       <h1 class="logo">Stranger<span class="logo-accent">Drug</span></h1>
 
       <nav class="main-links">
-        <a *ngIf="isAdmin" class="admin-link">Panel de administración</a>
+        <a *ngIf="isAdmin" [routerLink]="['/admin-panel']" class="admin-link">Panel de Administración</a>
         <a [routerLink]="['/notification']">Notificaciones</a>
-        <a [routerLink]="['/library']">Biblioteca</a>
+        <a *ngIf="!isAdmin" [routerLink]="['/library']">Biblioteca</a>
       </nav>
 
       <button *ngIf="!isLoggedIn" class="btn-iniciar-sesion" (click)="iniciarSesion()">

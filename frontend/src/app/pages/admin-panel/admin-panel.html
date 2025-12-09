@@ -1,0 +1,349 @@
+<div class="admin-panel-layout">
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="header-content">
+            <h1 class="admin-title">Panel de Administración</h1>
+            <button class="btn-back" (click)="router.navigate(['/home'])">Volver al Inicio</button>
+        </div>
+    </header>
+
+    <!-- Notifications -->
+    <div class="notifications">
+        <div *ngIf="successMessage" class="notification success">
+            {{ successMessage }}
+        </div>
+        <div *ngIf="errorMessage" class="notification error">
+            {{ errorMessage }}
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <nav class="tabs-nav">
+        <button class="tab-button" [class.active]="activeTab === 'models'" (click)="switchTab('models')">
+            Modelos
+        </button>
+        <button class="tab-button" [class.active]="activeTab === 'sections'" (click)="switchTab('sections')">
+            Secciones
+        </button>
+        <button class="tab-button" [class.active]="activeTab === 'posts'" (click)="switchTab('posts')">
+            Publicaciones
+        </button>
+        <button class="tab-button" [class.active]="activeTab === 'sales'" (click)="switchTab('sales')">
+            Ventas
+        </button>
+    </nav>
+
+    <!-- Content Area -->
+    <div class="content-area">
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="loading-overlay">
+            <p>Cargando...</p>
+        </div>
+
+        <!-- Models Tab -->
+        <div *ngIf="activeTab === 'models'" class="tab-content">
+            <div class="tab-header">
+                <h2>Modelos</h2>
+                <button class="btn-primary" (click)="openModelModal('create')">Nueva Modelo</button>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar modelo..." [(ngModel)]="modelSearch" (input)="filterModels()">
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Foto</th>
+                        <th>Nombre</th>
+                        <th>Biografía</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let model of filteredModels">
+                        <td data-label="ID">{{ model.id }}</td>
+                        <td data-label="Foto">
+                            <img [src]="model.profile.s3Url" alt="{{ model.name }}" class="table-thumbnail">
+                        </td>
+                        <td data-label="Nombre">{{ model.name }}</td>
+                        <td data-label="Biografía">{{ model.biography | slice:0:50 }}...</td>
+                        <td class="actions">
+                            <button class="btn-edit" (click)="openModelModal('edit', model)">Editar</button>
+                            <button class="btn-delete" (click)="deleteModel(model)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p *ngIf="models.length === 0 && !isLoading" class="empty-message">
+                No hay modelos registrados
+            </p>
+        </div>
+
+        <!-- Sections Tab -->
+        <div *ngIf="activeTab === 'sections'" class="tab-content">
+            <div class="tab-header">
+                <h2>Secciones</h2>
+                <button class="btn-primary" (click)="openSectionModal('create')">Nueva Sección</button>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar sección..." [(ngModel)]="sectionSearch"
+                    (input)="filterSections()">
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let section of filteredSections">
+                        <td data-label="ID">{{ section.id }}</td>
+                        <td data-label="Nombre">{{ section.name }}</td>
+                        <td data-label="Descripción">{{ section.description }}</td>
+                        <td class="actions">
+                            <button class="btn-edit" (click)="openSectionModal('edit', section)">Editar</button>
+                            <button class="btn-delete" (click)="deleteSection(section)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p *ngIf="sections.length === 0 && !isLoading" class="empty-message">
+                No hay secciones registradas
+            </p>
+        </div>
+
+        <!-- Posts Tab -->
+        <div *ngIf="activeTab === 'posts'" class="tab-content">
+            <div class="tab-header">
+                <h2>Publicaciones</h2>
+                <button class="btn-primary" (click)="openPostModal('create')">Nueva Publicación</button>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar publicación..." [(ngModel)]="postSearch" (input)="filterPosts()">
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Thumbnail</th>
+                        <th>Título</th>
+                        <th>Sección</th>
+                        <th>Duración</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let post of filteredPosts">
+                        <td data-label="ID">{{ post.id }}</td>
+                        <td data-label="Thumbnail">
+                            <img [src]="post.thumbnailUrl" alt="{{ post.title }}" class="table-thumbnail">
+                        </td>
+                        <td data-label="Título">{{ post.title }}</td>
+                        <td data-label="Sección">{{ post.section?.name || 'Sin Sección' }}</td>
+                        <td data-label="Duración">{{ formatDuration(post.duration) }}</td>
+                        <td class="actions">
+                            <button class="btn-edit" (click)="openPostModal('edit', post)">Editar</button>
+                            <button class="btn-delete" (click)="deletePost(post)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p *ngIf="posts.length === 0 && !isLoading" class="empty-message">
+                No hay publicaciones registradas
+            </p>
+        </div>
+
+        <!-- Sales Tab -->
+        <div *ngIf="activeTab === 'sales'" class="tab-content">
+            <div class="tab-header">
+                <h2>Ventas Realizadas</h2>
+                <button class="btn-danger" (click)="deleteAllPurchases()" *ngIf="purchases.length > 0">
+                    Eliminar Todas
+                </button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Transacción</th>
+                        <th>Estado Pago</th>
+                        <th>Monto</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let purchase of purchases">
+                        <td data-label="ID">{{ purchase.id }}</td>
+                        <td data-label="Usuario">{{ purchase.user.name }}</td>
+                        <td data-label="Email">{{ purchase.user.email }}</td>
+                        <td data-label="Transacción">{{ purchase.payment.transactionId }}</td>
+                        <td data-label="Estado">
+                            <span [class]="'status-badge ' + purchase.payment.status.toLowerCase()">
+                                {{ purchase.payment.status }}
+                            </span>
+                        </td>
+                        <td data-label="Monto">${{ purchase.amount | number:'1.0-0' }}</td>
+                        <td data-label="Fecha">{{ formatDate(purchase.createdAt) }}</td>
+                        <td class="actions">
+                            <button class="btn-delete" (click)="deletePurchase(purchase)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p *ngIf="purchases.length === 0 && !isLoading" class="empty-message">
+                No hay ventas registradas
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Models/Sections -->
+<div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>{{ modalMode === 'create' ? 'Crear' : 'Editar' }}
+                {{ activeTab === 'models' ? 'Modelo' : 'Sección' }}</h3>
+            <button class="btn-close" (click)="closeModal()">×</button>
+        </div>
+
+        <!-- Model Form -->
+        <div *ngIf="activeTab === 'models'" class="modal-body">
+            <div class="form-group">
+                <label>Nombre *</label>
+                <input type="text" [(ngModel)]="modelForm.name" placeholder="Nombre de la modelo">
+            </div>
+
+            <div class="form-group">
+                <label>Biografía *</label>
+                <textarea [(ngModel)]="modelForm.biography" placeholder="Biografía de la modelo" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Foto {{ modalMode === 'create' ? '*' : '(opcional)' }}</label>
+                <input type="file" (change)="onModelFileSelected($event)" accept="image/*">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" (click)="closeModal()">Cancelar</button>
+                <button class="btn-primary" (click)="saveModel()">Guardar</button>
+            </div>
+        </div>
+
+        <!-- Section Form -->
+        <div *ngIf="activeTab === 'sections'" class="modal-body">
+            <div class="form-group">
+                <label>Nombre *</label>
+                <input type="text" [(ngModel)]="sectionForm.name" placeholder="Nombre de la sección">
+            </div>
+
+            <div class="form-group">
+                <label>Descripción *</label>
+                <textarea [(ngModel)]="sectionForm.description" placeholder="Descripción de la sección"
+                    rows="4"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" (click)="closeModal()">Cancelar</button>
+                <button class="btn-primary" (click)="saveSection()">Guardar</button>
+            </div>
+        </div>
+
+        <!-- Post Form -->
+        <div *ngIf="activeTab === 'posts'" class="modal-body post-form">
+            <div class="form-group">
+                <label>Título *</label>
+                <input type="text" [(ngModel)]="postForm.title" placeholder="Título de la publicación">
+            </div>
+
+            <div class="form-group">
+                <label>Descripción *</label>
+                <textarea [(ngModel)]="postForm.description" placeholder="Descripción de la publicación"
+                    rows="4"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Duración (segundos) *</label>
+                    <input type="number" [(ngModel)]="postForm.duration" placeholder="920" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Sección (opcional)</label>
+                    <select [(ngModel)]="postForm.sectionName">
+                        <option value="">Sin sección</option>
+                        <option *ngFor="let section of availableSections" [value]="section.name">
+                            {{ section.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Modelos (opcional)</label>
+                <div class="model-selection">
+                    <div *ngFor="let model of availableModels" class="model-checkbox">
+                        <input type="checkbox" [id]="'model-' + model.id" [checked]="isModelSelected(model.id)"
+                            (change)="toggleModelSelection(model.id)">
+                        <label [for]="'model-' + model.id">{{ model.name }}</label>
+                    </div>
+                </div>
+                <p class="helper-text" *ngIf="availableModels.length === 0">No hay modelos disponibles</p>
+            </div>
+
+            <div class="form-group">
+                <label>Precios *</label>
+                <div class="prices-container">
+                    <div *ngFor="let price of postForm.prices; let i = index" class="price-row">
+                        <input type="text" [(ngModel)]="price.country" placeholder="País" class="price-input">
+                        <input type="text" [(ngModel)]="price.codeCountry" placeholder="Código"
+                            class="price-input-small">
+                        <input type="number" [(ngModel)]="price.amount" placeholder="Monto" class="price-input" min="0">
+                        <input type="text" [(ngModel)]="price.currency" placeholder="Moneda" class="price-input-small">
+                        <button type="button" class="btn-remove-price" (click)="removePrice(i)">×</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-add-price" (click)="addPrice()">+ Agregar Precio</button>
+            </div>
+
+            <div class="form-group">
+                <label>Video {{ modalMode === 'create' ? '*' : '(opcional)' }}</label>
+                <input type="file" (change)="onPostVideoSelected($event)" accept="video/*">
+                <p class="helper-text">Archivo de video principal</p>
+            </div>
+
+            <div class="form-group">
+                <label>Preview {{ modalMode === 'create' ? '*' : '(opcional)' }}</label>
+                <input type="file" (change)="onPostPreviewSelected($event)" accept="video/*">
+                <p class="helper-text">Video de vista previa</p>
+            </div>
+
+            <div class="form-group">
+                <label>Thumbnail {{ modalMode === 'create' ? '*' : '(opcional)' }}</label>
+                <input type="file" (change)="onPostThumbnailSelected($event)" accept="image/*">
+                <p class="helper-text">Imagen miniatura</p>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" (click)="closeModal()">Cancelar</button>
+                <button class="btn-primary" (click)="savePost()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

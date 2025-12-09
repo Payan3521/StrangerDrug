@@ -16,6 +16,7 @@ import { VideoGallery } from './pages/video-gallery/video-gallery';
 import { ModelGallery } from './pages/model-gallery/model-gallery';
 import { Notifications } from './pages/notification/notification';
 import { Library } from './pages/library/library';
+import { AdminPanel } from './pages/admin-panel/admin-panel';
 import { FooterComponent } from './components/footer/footer';
 
 @NgModule({
@@ -29,7 +30,8 @@ import { FooterComponent } from './components/footer/footer';
     VideoGallery,
     ModelGallery,
     Notifications,
-    Library
+    Library,
+    AdminPanel
   ],
   imports: [
     BrowserModule,

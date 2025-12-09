@@ -78,7 +78,36 @@ export class PurchaseService {
 
   softDeletePurchase(purchaseId: number): Observable<void> {
     return this.http.delete<void>(
-      `${this.apiUrl}/purchases/soft-delete-cliente/${purchaseId}`,
+      `${this.apiUrl}/soft-delete-cliente/${purchaseId}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // Admin methods
+  getAllPurchases(): Observable<PurchaseResponseDto[]> {
+    return this.http.get<PurchaseResponseDto[]>(
+      `${this.apiUrl}/purchases`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  getPurchaseById(id: number): Observable<PurchaseResponseDto> {
+    return this.http.get<PurchaseResponseDto>(
+      `${this.apiUrl}/purchases/${id}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  softDeleteAdmin(purchaseId: number): Observable<void> {
+    return this.http.delete<void>(
+      `${this.apiUrl}/purchases/soft-delete-admin/${purchaseId}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  softDeleteAllAdmin(): Observable<void> {
+    return this.http.delete<void>(
+      `${this.apiUrl}/purchases/soft-delete-clear-admin`,
       { headers: this.getHeaders() }
     );
   }

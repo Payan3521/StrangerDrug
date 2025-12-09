@@ -17,7 +17,8 @@
     <h2 class="section-title">Videos</h2>
 
     <div class="search-bar-container">
-      <input type="text" placeholder="Buscar videos..." class="search-input">
+      <input type="text" placeholder="Buscar videos por título, sección o modelo..." class="search-input"
+        [value]="searchTerm" (input)="onSearchChange($event)">
     </div>
 
     <section class="category-section" *ngFor="let category of categorias; let i = index">
@@ -57,6 +58,10 @@
         </div>
       </div>
     </section>
+
+    <div *ngIf="categorias.length === 0 && allPosts.length > 0" class="no-results">
+      <p>No se encontraron videos que coincidan con "{{ searchTerm }}".</p>
+    </div>
 
   </main>
 
