@@ -112,7 +112,7 @@ export class AdminPanel implements OnInit {
         this.isLoading = true;
         this.modelService.getAllModels().subscribe({
             next: (models) => {
-                this.models = models;
+                this.models = models || [];
                 this.filterModels();
                 this.isLoading = false;
             },
@@ -125,10 +125,10 @@ export class AdminPanel implements OnInit {
 
     filterModels(): void {
         if (!this.modelSearch) {
-            this.filteredModels = [...this.models];
+            this.filteredModels = [...(this.models || [])];
         } else {
             const term = this.modelSearch.toLowerCase();
-            this.filteredModels = this.models.filter(m =>
+            this.filteredModels = (this.models || []).filter(m =>
                 m.name.toLowerCase().includes(term) ||
                 m.biography.toLowerCase().includes(term)
             );
@@ -216,7 +216,7 @@ export class AdminPanel implements OnInit {
         this.isLoading = true;
         this.sectionService.getAllSections().subscribe({
             next: (sections) => {
-                this.sections = sections;
+                this.sections = sections || [];
                 this.filterSections();
                 this.isLoading = false;
             },
@@ -229,10 +229,10 @@ export class AdminPanel implements OnInit {
 
     filterSections(): void {
         if (!this.sectionSearch) {
-            this.filteredSections = [...this.sections];
+            this.filteredSections = [...(this.sections || [])];
         } else {
             const term = this.sectionSearch.toLowerCase();
-            this.filteredSections = this.sections.filter(s =>
+            this.filteredSections = (this.sections || []).filter(s =>
                 s.name.toLowerCase().includes(term) ||
                 s.description.toLowerCase().includes(term)
             );
@@ -309,7 +309,7 @@ export class AdminPanel implements OnInit {
         this.isLoading = true;
         this.postService.getAllPosts().subscribe({
             next: (posts) => {
-                this.posts = posts;
+                this.posts = posts || [];
                 this.filterPosts();
                 this.isLoading = false;
             },
@@ -322,10 +322,10 @@ export class AdminPanel implements OnInit {
 
     filterPosts(): void {
         if (!this.postSearch) {
-            this.filteredPosts = [...this.posts];
+            this.filteredPosts = [...(this.posts || [])];
         } else {
             const term = this.postSearch.toLowerCase();
-            this.filteredPosts = this.posts.filter(p =>
+            this.filteredPosts = (this.posts || []).filter(p =>
                 p.title.toLowerCase().includes(term) ||
                 p.description.toLowerCase().includes(term) ||
                 (p.section && p.section.name.toLowerCase().includes(term))
@@ -542,7 +542,7 @@ export class AdminPanel implements OnInit {
         this.isLoading = true;
         this.purchaseService.getAllPurchases().subscribe({
             next: (purchases) => {
-                this.purchases = purchases;
+                this.purchases = purchases || [];
                 this.isLoading = false;
             },
             error: (err) => {
