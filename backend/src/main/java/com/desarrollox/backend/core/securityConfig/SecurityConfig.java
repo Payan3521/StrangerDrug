@@ -100,7 +100,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/videos/upload-preview").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/videos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/videos/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/videos/get-playable-url").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/videos/get-playable-url").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/videos/update-preview/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/videos/update-video/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/videos/{id}").hasRole("ADMIN")
