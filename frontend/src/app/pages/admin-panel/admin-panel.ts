@@ -386,10 +386,11 @@ export class AdminPanel implements OnInit {
     loadModelsForSelection(): void {
         this.modelService.getAllModels().subscribe({
             next: (models) => {
-                this.availableModels = models;
+                this.availableModels = models || [];
             },
             error: (err) => {
                 console.error('Error loading models for selection:', err);
+                this.availableModels = [];
             }
         });
     }
@@ -397,10 +398,11 @@ export class AdminPanel implements OnInit {
     loadSectionsForSelection(): void {
         this.sectionService.getAllSections().subscribe({
             next: (sections) => {
-                this.availableSections = sections;
+                this.availableSections = sections || [];
             },
             error: (err) => {
                 console.error('Error loading sections for selection:', err);
+                this.availableSections = [];
             }
         });
     }
